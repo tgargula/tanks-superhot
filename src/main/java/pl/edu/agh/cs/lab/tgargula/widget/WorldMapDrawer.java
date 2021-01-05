@@ -23,7 +23,7 @@ public class WorldMapDrawer implements IDrawer {
             Pane row = new HBox();
             row.getStyleClass().add("world-map");
             for (int j = 0; j < size; j++)
-                row.getChildren().add(Field.of(map, Position.of(i, j)));
+                row.getChildren().add(Field.of(map, Position.of(j, i)));
             pane.getChildren().add(row);
         }
         return pane;

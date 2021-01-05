@@ -5,7 +5,6 @@ import pl.edu.agh.cs.lab.tgargula.elements.interfaces.IElement;
 import pl.edu.agh.cs.lab.tgargula.worldmap.interfaces.IObserver;
 import pl.edu.agh.cs.lab.tgargula.worldmap.interfaces.IWorldMap;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 

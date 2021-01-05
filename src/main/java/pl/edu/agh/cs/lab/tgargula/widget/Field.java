@@ -1,23 +1,20 @@
 package pl.edu.agh.cs.lab.tgargula.widget;
 
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.layout.Pane;
 import pl.edu.agh.cs.lab.tgargula.basics.Position;
 import pl.edu.agh.cs.lab.tgargula.worldmap.interfaces.IWorldMap;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class Field extends Label {
+public class Field extends Pane {
 
     private final static Map<Position, Field> fields = new ConcurrentHashMap<>();
 
 
     private Field(Position position, ImageView imageView) {
-        super("", imageView);
+        super(imageView);
         this.getStyleClass().add("field");
         fields.put(position, this);
     }

@@ -16,7 +16,7 @@ public class Obstacle extends AbstractElement implements IDamageable {
     }
 
     public Obstacle(Position position, boolean destroyable) {
-        super(position, new ImageView());
+        super(position, new ImageView("/images/obstacle.png"));
         this.destroyable = destroyable;
     }
 

@@ -11,8 +11,8 @@ public abstract class AbstractTank extends AbstractElement implements ITank {
 
     protected int currentDurability;
 
-    protected AbstractTank(Position position, int durability) {
-        super(position, new ImageView());
+    protected AbstractTank(Position position, int durability, ImageView imageView) {
+        super(position, imageView);
         this.maxDurability = durability;
         this.currentDurability = durability;
     }

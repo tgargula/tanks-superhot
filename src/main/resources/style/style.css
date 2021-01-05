@@ -11,8 +11,8 @@
 }
 
 .field {
-    -fx-background-color: rgb(255,0,0);
+    -fx-background-color: rgb(153, 153, 153);
     -fx-pref-width: 30px;
     -fx-pref-height: 30px;
-    -fx-background-radius: 5px;
+    -fx-background-radius: 2px;
 }
