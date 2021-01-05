@@ -4,8 +4,13 @@ import pl.edu.agh.cs.lab.tgargula.basics.Position;
 
 public class BouncyBulletPowerUp extends AbstractPowerUp {
 
-    protected BouncyBulletPowerUp(Position position) {
+    public BouncyBulletPowerUp(Position position) {
         super(position);
+    }
+
+    @Override
+    public void use() {
+
     }
 
 }

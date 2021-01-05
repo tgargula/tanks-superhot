@@ -5,6 +5,8 @@ import pl.edu.agh.cs.lab.tgargula.elements.interfaces.IElement;
 
 public interface IWorldMap extends IObserver {
 
+    boolean isOccupied(Position position);
+
     IElement getElementAt(Position position);
 
     int getSize();

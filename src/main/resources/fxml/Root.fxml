@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#updateMap" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.lab.tgargula.widget.SceneController">
    <children>
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
@@ -19,10 +19,13 @@
                </children>
             </HBox>
          </children>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
       </HBox>
       <StackPane prefHeight="150.0" prefWidth="200.0">
          <children>
-            <Pane nodeOrientation="LEFT_TO_RIGHT" prefHeight="200.0" prefWidth="200.0">
+            <Pane fx:id="worldMapPane" nodeOrientation="LEFT_TO_RIGHT" prefHeight="169.0" prefWidth="600.0" styleClass="world-map-pane">
                <children>
                   <Label text="Pane na mapę" />
                </children>

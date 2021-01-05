@@ -4,8 +4,12 @@ import pl.edu.agh.cs.lab.tgargula.basics.Position;
 
 public class FastBulletPowerUp extends AbstractPowerUp {
 
-    protected FastBulletPowerUp(Position position) {
+    public FastBulletPowerUp(Position position) {
         super(position);
     }
 
+    @Override
+    public void use() {
+
+    }
 }

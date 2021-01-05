@@ -4,8 +4,12 @@ import pl.edu.agh.cs.lab.tgargula.basics.Position;
 
 public class ExtraLifePowerUp extends AbstractPowerUp {
 
-    protected ExtraLifePowerUp(Position position) {
+    public ExtraLifePowerUp(Position position) {
         super(position);
     }
 
+    @Override
+    public void use() {
+
+    }
 }

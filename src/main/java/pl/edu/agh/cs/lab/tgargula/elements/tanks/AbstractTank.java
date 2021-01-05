@@ -1,5 +1,6 @@
 package pl.edu.agh.cs.lab.tgargula.elements.tanks;
 
+import javafx.scene.image.ImageView;
 import pl.edu.agh.cs.lab.tgargula.basics.Position;
 import pl.edu.agh.cs.lab.tgargula.elements.interfaces.AbstractElement;
 import pl.edu.agh.cs.lab.tgargula.elements.interfaces.ITank;
@@ -11,7 +12,7 @@ public abstract class AbstractTank extends AbstractElement implements ITank {
     protected int currentDurability;
 
     protected AbstractTank(Position position, int durability) {
-        super(position);
+        super(position, new ImageView());
         this.maxDurability = durability;
         this.currentDurability = durability;
     }

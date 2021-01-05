@@ -4,8 +4,12 @@ import pl.edu.agh.cs.lab.tgargula.basics.Position;
 
 public class TwoMovesPowerUp extends AbstractPowerUp {
 
-    protected TwoMovesPowerUp(Position position) {
+    public TwoMovesPowerUp(Position position) {
         super(position);
     }
 
+    @Override
+    public void use() {
+
+    }
 }

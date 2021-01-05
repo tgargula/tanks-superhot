@@ -1,11 +1,15 @@
 package pl.edu.agh.cs.lab.tgargula.elements.bullets;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import pl.edu.agh.cs.lab.tgargula.basics.Direction;
 import pl.edu.agh.cs.lab.tgargula.basics.Position;
+import pl.edu.agh.cs.lab.tgargula.elements.interfaces.ITank;
 
 public class CommonBullet extends AbstractBullet {
 
-    protected CommonBullet(Position position) {
-        super(position);
+    public CommonBullet(Position position, Direction direction) {
+        super(position, direction, new ImageView("images/common_bullet.png"));
     }
 
 }
