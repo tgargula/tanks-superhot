@@ -1,6 +1,5 @@
 package pl.edu.agh.cs.lab.tgargula.widget;
 
-import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
