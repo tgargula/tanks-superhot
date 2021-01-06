@@ -13,9 +13,12 @@ import pl.edu.agh.cs.lab.tgargula.elements.bullets.BouncyBullet;
 import pl.edu.agh.cs.lab.tgargula.elements.bullets.CommonBullet;
 import pl.edu.agh.cs.lab.tgargula.elements.bullets.FastBullet;
 import pl.edu.agh.cs.lab.tgargula.elements.bullets.StrongBullet;
+import pl.edu.agh.cs.lab.tgargula.elements.interfaces.ITank;
 import pl.edu.agh.cs.lab.tgargula.elements.powerups.ImmortalityPowerUp;
 import pl.edu.agh.cs.lab.tgargula.elements.tanks.EnemyTank;
 import pl.edu.agh.cs.lab.tgargula.elements.tanks.PlayerTank;
+import pl.edu.agh.cs.lab.tgargula.engine.Engine;
+import pl.edu.agh.cs.lab.tgargula.engine.IEngine;
 import pl.edu.agh.cs.lab.tgargula.worldmap.WorldMap;
 import pl.edu.agh.cs.lab.tgargula.worldmap.interfaces.IWorldMap;
 
@@ -24,7 +27,9 @@ public class SceneController {
     private final IWorldMap worldMap = new WorldMap(25);
 
     private final IDrawer worldMapDrawer = new WorldMapDrawer(worldMap);
-
+    
+    private final IEngine engine = new Engine(worldMap);
+    
     @FXML
     private HBox lifePane;
 
@@ -41,15 +46,15 @@ public class SceneController {
         // Tests
 
         // worldMap
-        worldMap.observe(new CommonBullet(Position.of(0, 0), Direction.EAST));
-        worldMap.observe(new FastBullet(Position.of(1, 0), Direction.EAST));
-        worldMap.observe(new CommonBullet(Position.of(15, 6), Direction.NORTH));
-        worldMap.observe(new StrongBullet(Position.of(2, 0), Direction.NORTHEAST));
-        worldMap.observe(new BouncyBullet(Position.of(3, 0), Direction.WEST));
-        worldMap.observe(new PlayerTank(Position.of(0, 1), 10));
-        worldMap.observe(new EnemyTank(Position.of(1, 1), 1));
-        worldMap.observe(new ImmortalityPowerUp(Position.of(2, 1)));
-        worldMap.observe(new Obstacle(Position.of(3,1)));
+        engine.add(new CommonBullet(Position.of(0, 0), Direction.EAST));
+        engine.add(new FastBullet(Position.of(1, 0), Direction.EAST));
+        engine.add(new CommonBullet(Position.of(15, 6), Direction.NORTH));
+        engine.add(new StrongBullet(Position.of(2, 0), Direction.NORTHEAST));
+        engine.add(new BouncyBullet(Position.of(3, 0), Direction.WEST));
+        engine.add(new PlayerTank(Position.of(0, 1), 10));
+        engine.add(new EnemyTank(Position.of(1, 1), 1));
+        engine.add(new ImmortalityPowerUp(Position.of(2, 1)));
+        engine.add(new Obstacle(Position.of(3,1)));
 
         // lifePane
         lifePane.getChildren().add(new Heart().getImageView());
@@ -60,6 +65,8 @@ public class SceneController {
 
     @FXML
     private void updateMap(KeyEvent event) {
+        ITank player = worldMap.getPlayerTank();
+        Direction.processEvent(player, event);
         worldMapPane.getChildren().clear();
         worldMapPane.getChildren().add(worldMapDrawer.draw());
     }

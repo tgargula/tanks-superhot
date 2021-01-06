@@ -8,4 +8,6 @@ public interface IObservable {
 
     void removeObserver(IObserver observer);
 
+    void update();
+
 }

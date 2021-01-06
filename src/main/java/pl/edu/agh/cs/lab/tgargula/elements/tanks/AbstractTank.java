@@ -28,4 +28,11 @@ public abstract class AbstractTank extends AbstractMovable implements ITank {
     @Override
     public void beDestroyed() {
     }
+
+    @Override
+    public void move(Direction direction) {
+        this.position = this.getPosition().add(direction.toUnitVector());
+        this.direction = direction;
+        this.update();
+    }
 }

@@ -16,7 +16,7 @@ public class Field extends Pane {
     private Field(Position position, ImageView imageView) {
         super(imageView);
         this.getStyleClass().add("field");
-        fields.put(position, this);
+//        fields.put(position, this);
     }
 
     private Field(Position position) {

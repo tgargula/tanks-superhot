@@ -8,4 +8,6 @@ public interface IObserver {
 
     void stopObserving(IElement element);
 
+    void changePosition(IElement element);
+
 }

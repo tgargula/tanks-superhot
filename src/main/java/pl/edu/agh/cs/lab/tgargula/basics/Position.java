@@ -36,4 +36,8 @@ public final class Position {
         return null;
     }
 
+    @Override
+    public String toString() {
+        return "(" + x + "," + y + ")";
+    }
 }

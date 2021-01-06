@@ -32,4 +32,9 @@ public abstract class AbstractElement extends AbstractVisible implements IElemen
         this.observers.remove(observer);
     }
 
+    @Override
+    public void update() {
+        observers.forEach(observer -> observer.changePosition(this));
+    }
+
 }

@@ -22,11 +22,6 @@ public class PlayerTank extends AbstractTank {
     }
 
     @Override
-    public void move(Direction direction) {
-
-    }
-
-    @Override
     public IBullet shoot() {
         return null;
     }
