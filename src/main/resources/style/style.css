@@ -2,12 +2,17 @@
     -fx-background-color: rgb(43, 43, 43);
 }
 
+.center {
+    -fx-alignment: center;
+}
+
 .world-map-pane {
     -fx-alignment: center;
 }
 
 .world-map {
     -fx-spacing: 1px;
+    -fx-alignment: center;
 }
 
 .field {
@@ -15,4 +20,20 @@
     -fx-pref-width: 30px;
     -fx-pref-height: 30px;
     -fx-background-radius: 2px;
+}
+
+.bullets-pane {
+}
+
+.life-pane {
+    -fx-background-color: rgb(153, 153, 153);
+    -fx-background-radius: 5px;
+}
+
+.upper-pane {
+    -fx-alignment: center;
+}
+
+.lower-pane {
+    -fx-alignment: center;
 }

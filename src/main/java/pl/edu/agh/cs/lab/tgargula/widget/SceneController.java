@@ -3,9 +3,11 @@ package pl.edu.agh.cs.lab.tgargula.widget;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import pl.edu.agh.cs.lab.tgargula.basics.Direction;
 import pl.edu.agh.cs.lab.tgargula.basics.Position;
+import pl.edu.agh.cs.lab.tgargula.elements.Heart;
 import pl.edu.agh.cs.lab.tgargula.elements.Obstacle;
 import pl.edu.agh.cs.lab.tgargula.elements.bullets.BouncyBullet;
 import pl.edu.agh.cs.lab.tgargula.elements.bullets.CommonBullet;
@@ -24,11 +26,21 @@ public class SceneController {
     private final IDrawer worldMapDrawer = new WorldMapDrawer(worldMap);
 
     @FXML
+    private HBox lifePane;
+
+    @FXML
+    private HBox bulletsPane;
+
+    @FXML
     private Pane worldMapPane;
 
     @FXML
     private void initialize() {
         System.out.println("Initialized");
+
+        // Tests
+
+        // worldMap
         worldMap.observe(new CommonBullet(Position.of(0, 0), Direction.EAST));
         worldMap.observe(new FastBullet(Position.of(1, 0), Direction.EAST));
         worldMap.observe(new CommonBullet(Position.of(15, 6), Direction.NORTH));
@@ -38,6 +50,12 @@ public class SceneController {
         worldMap.observe(new EnemyTank(Position.of(1, 1), 1));
         worldMap.observe(new ImmortalityPowerUp(Position.of(2, 1)));
         worldMap.observe(new Obstacle(Position.of(3,1)));
+
+        // lifePane
+        lifePane.getChildren().add(new Heart().getImageView());
+        lifePane.getChildren().add(new Heart().getImageView());
+        lifePane.getChildren().add(new Heart().getImageView());
+
     }
 
     @FXML

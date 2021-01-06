@@ -7,16 +7,14 @@ import pl.edu.agh.cs.lab.tgargula.worldmap.interfaces.IObserver;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class AbstractElement implements IElement {
+public abstract class AbstractElement extends AbstractVisible implements IElement {
 
     protected final List<IObserver> observers = new LinkedList<>();
-    protected final ImageView imageView;
-
     protected Position position;
 
     protected AbstractElement(Position position, ImageView imageView) {
+        super(imageView);
         this.position = position;
-        this.imageView = imageView;
     }
 
     @Override
@@ -34,8 +32,4 @@ public abstract class AbstractElement implements IElement {
         this.observers.remove(observer);
     }
 
-    @Override
-    public ImageView getImageView() {
-        return imageView;
-    }
 }

@@ -6,15 +6,11 @@
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#updateMap"
       prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="pl.edu.agh.cs.lab.tgargula.widget.SceneController">
-    <HBox prefHeight="100.0" prefWidth="200.0">
-        <HBox prefHeight="100.0" prefWidth="200.0">
-            <Label text="Pane na powerupy"/>
-        </HBox>
-        <HBox prefHeight="100.0" prefWidth="400.0">
-            <Label text="Pane na żyćko"/>
-        </HBox>
+    <HBox prefHeight="100.0" prefWidth="200.0" styleClass="upper-pane">
+        <HBox fx:id="bulletsPane" prefHeight="100.0" prefWidth="200.0" styleClass="bullets-pane"/>
+        <HBox fx:id="lifePane" prefHeight="100.0" prefWidth="400.0" styleClass="life-pane"/>
     </HBox>
-    <StackPane prefHeight="150.0" prefWidth="200.0">
+    <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="lower-pane">
         <Pane fx:id="worldMapPane" nodeOrientation="LEFT_TO_RIGHT" prefHeight="169.0" prefWidth="600.0"
               styleClass="world-map-pane">
         </Pane>

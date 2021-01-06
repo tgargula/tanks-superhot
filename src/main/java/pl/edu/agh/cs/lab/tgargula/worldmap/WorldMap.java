@@ -8,7 +8,7 @@ import pl.edu.agh.cs.lab.tgargula.worldmap.interfaces.IWorldMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class WorldMap implements IWorldMap, IObserver {
+public class WorldMap implements IWorldMap {
 
     private final Map<Position, IElement> elements = new ConcurrentHashMap<>();
     private final int size;
