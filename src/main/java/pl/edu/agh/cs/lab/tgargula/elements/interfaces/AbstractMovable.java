@@ -1,11 +1,8 @@
 package pl.edu.agh.cs.lab.tgargula.elements.interfaces;
 
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import pl.edu.agh.cs.lab.tgargula.basics.Direction;
 import pl.edu.agh.cs.lab.tgargula.basics.Position;
-
-import java.util.Random;
 
 public abstract class AbstractMovable extends AbstractElement implements IMovable {
 
@@ -24,6 +21,13 @@ public abstract class AbstractMovable extends AbstractElement implements IMovabl
     @Override
     public void setPosition(Position position) {
         this.position = position;
+    }
+
+    @Override
+    public void move() {
+        System.out.println(this);
+        this.position = position.add(direction.toUnitVector());
+        this.update();
     }
 
     @Override

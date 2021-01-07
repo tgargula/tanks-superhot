@@ -8,4 +8,8 @@ public interface ITank extends IDamageable, IMovable {
 
     IBullet shoot();
 
+    void rotateLeft();
+
+    void rotateRight();
+
 }

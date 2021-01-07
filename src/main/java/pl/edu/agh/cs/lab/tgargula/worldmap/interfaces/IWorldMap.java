@@ -14,4 +14,6 @@ public interface IWorldMap extends IObserver {
 
     ITank getPlayerTank();
 
+    void nextStep();
+
 }

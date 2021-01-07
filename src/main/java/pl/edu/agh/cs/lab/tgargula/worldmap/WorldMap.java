@@ -1,16 +1,17 @@
 package pl.edu.agh.cs.lab.tgargula.worldmap;
 
-import javafx.geometry.Pos;
 import pl.edu.agh.cs.lab.tgargula.basics.Position;
 import pl.edu.agh.cs.lab.tgargula.elements.interfaces.IElement;
+import pl.edu.agh.cs.lab.tgargula.elements.interfaces.IMovable;
 import pl.edu.agh.cs.lab.tgargula.elements.interfaces.ITank;
 import pl.edu.agh.cs.lab.tgargula.elements.tanks.PlayerTank;
-import pl.edu.agh.cs.lab.tgargula.worldmap.interfaces.IObserver;
+import pl.edu.agh.cs.lab.tgargula.engine.IEngine;
 import pl.edu.agh.cs.lab.tgargula.worldmap.interfaces.IWorldMap;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class WorldMap implements IWorldMap {
@@ -46,6 +47,12 @@ public class WorldMap implements IWorldMap {
     }
 
     @Override
+    public void nextStep() {
+        Set.copyOf(elements.values()).stream().filter(element -> element instanceof IMovable)
+                .forEach(element -> ((IMovable) element).move());
+    }
+
+    @Override
     public void observe(IElement element) {
         elements.put(element.getPosition(), element);
         positions.put(element, element.getPosition());
@@ -54,20 +61,19 @@ public class WorldMap implements IWorldMap {
             players.add((ITank) element);
     }
 
+    @SuppressWarnings("SuspiciousMethodCalls")
     @Override
     public void stopObserving(IElement element) {
         elements.remove(element.getPosition());
         positions.remove(element);
         element.removeObserver(this);
+        players.remove(element);
     }
 
     @Override
     public void changePosition(IElement element) {
-        System.out.println(positions.get(element));
-        System.out.println(element.getPosition());
         Position oldPosition = positions.get(element);
         Position newPosition = element.getPosition();
-        System.out.println(elements.get(oldPosition));
         elements.remove(oldPosition);
         elements.put(newPosition, element);
         positions.put(element, newPosition);

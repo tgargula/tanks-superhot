@@ -16,11 +16,6 @@ public abstract class AbstractBullet extends AbstractMovable implements IBullet 
         this.direction = direction;
     }
 
-//    @Override
-    public void move() {
-        this.position = this.position.add(direction.toUnitVector());
-    }
-
     @Override
     public void takeDamage(ITank tank) {
         tank.beDamaged(1);

@@ -32,21 +32,43 @@ public enum Direction {
         };
     }
 
-    // Move ?
-    public static void processEvent(ITank player, KeyEvent event) {
-        switch (event.getCode().toString()) {
-            case "LEFT" -> player.move(Direction.WEST);
-            case "DOWN" -> player.move(Direction.SOUTH);
-            case "RIGHT" -> player.move(Direction.EAST);
-            case "UP" -> player.move(Direction.NORTH);
-            case "W" -> player.setDirection(Direction.NORTH);
-            case "E" -> player.setDirection(Direction.NORTHEAST);
-            case "D" -> player.setDirection(Direction.EAST);
-            case "C" -> player.setDirection(Direction.SOUTHEAST);
-            case "X" -> player.setDirection(Direction.SOUTH);
-            case "Z" -> player.setDirection(Direction.SOUTHWEST);
-            case "A" -> player.setDirection(Direction.WEST);
-            case "Q" -> player.setDirection(Direction.NORTHWEST);
-        }
+    public Direction rotateLeft() {
+        return rotate(NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST, NORTH);
     }
+
+    public Direction rotateRight() {
+        return rotate(SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST, NORTH, NORTHEAST, EAST);
+    }
+
+    private Direction rotate(Direction mapEast, Direction mapSoutheast, Direction mapSouth, Direction mapSouthwest,
+                             Direction mapWest, Direction mapNorthwest, Direction mapNorth, Direction mapNortheast) {
+        return switch (this) {
+            case EAST -> mapEast;
+            case SOUTHEAST -> mapSoutheast;
+            case SOUTH -> mapSouth;
+            case SOUTHWEST -> mapSouthwest;
+            case WEST -> mapWest;
+            case NORTHWEST -> mapNorthwest;
+            case NORTH -> mapNorth;
+            case NORTHEAST -> mapNortheast;
+        };
+    }
+
+    // Move ?
+//    public static void processEvent(ITank player, KeyEvent event) {
+//        switch (event.getCode().toString()) {
+//            case "LEFT" -> player.move(Direction.WEST);
+//            case "DOWN" -> player.move(Direction.SOUTH);
+//            case "RIGHT" -> player.move(Direction.EAST);
+//            case "UP" -> player.move(Direction.NORTH);
+//            case "W" -> player.setDirection(Direction.NORTH);
+//            case "E" -> player.setDirection(Direction.NORTHEAST);
+//            case "D" -> player.setDirection(Direction.EAST);
+//            case "C" -> player.setDirection(Direction.SOUTHEAST);
+//            case "X" -> player.setDirection(Direction.SOUTH);
+//            case "Z" -> player.setDirection(Direction.SOUTHWEST);
+//            case "A" -> player.setDirection(Direction.WEST);
+//            case "Q" -> player.setDirection(Direction.NORTHWEST);
+//        }
+//    }
 }

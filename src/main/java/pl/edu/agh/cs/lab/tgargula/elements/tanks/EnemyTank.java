@@ -1,7 +1,6 @@
 package pl.edu.agh.cs.lab.tgargula.elements.tanks;
 
 import javafx.scene.image.ImageView;
-import pl.edu.agh.cs.lab.tgargula.basics.Direction;
 import pl.edu.agh.cs.lab.tgargula.basics.Position;
 import pl.edu.agh.cs.lab.tgargula.elements.interfaces.IBullet;
 
@@ -18,11 +17,6 @@ public class EnemyTank extends AbstractTank {
 
     @Override
     public void beDestroyed() {
-
-    }
-
-    @Override
-    public void move(Direction direction) {
 
     }
 
