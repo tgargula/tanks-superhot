@@ -20,11 +20,14 @@ public class KeyEventListener {
             case "D", "RIGHT" -> playerTank.setDirection(Direction.EAST);
             case "S", "DOWN" -> playerTank.setDirection(Direction.SOUTH);
             case "A", "LEFT" -> playerTank.setDirection(Direction.WEST);
-            case "SPACE" -> playerTank.shoot();
             case "C" -> playerTank.rotateRight();
             case "Z" -> playerTank.rotateLeft();
             case "E", "Q", "1", "2", "3", "4" -> engine.changeBullet(event);
         }
+    }
+
+    public static boolean isShot(KeyEvent event) {
+        return event.getCode().toString().equals("SPACE");
     }
 
 }

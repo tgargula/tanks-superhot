@@ -54,6 +54,12 @@ public class SceneController {
 ////        engine.add(new BouncyBullet(Position.of(3, 0), Direction.WEST));
         engine.add(new PlayerTank(Position.of(1, 1), 10));
         engine.add(new EnemyTank(Position.of(13, 13), 1));
+
+        for (int i = 1; i < 10; i++) {
+            engine.add(new Obstacle(Position.of(i,10)));
+            engine.add(new Obstacle(Position.of(10, i)));
+        }
+        engine.add(new Obstacle(Position.of(10, 10)));
 ////        engine.add(new ImmortalityPowerUp(Position.of(2, 1)));
 ////        engine.add(new Obstacle(Position.of(3,1)));
 //        engine.add(new Obstacle(Position.of(0,0)));

@@ -6,6 +6,7 @@ import pl.edu.agh.cs.lab.tgargula.elements.Obstacle;
 import pl.edu.agh.cs.lab.tgargula.elements.interfaces.IBullet;
 import pl.edu.agh.cs.lab.tgargula.elements.interfaces.IElement;
 import pl.edu.agh.cs.lab.tgargula.elements.interfaces.ITank;
+import pl.edu.agh.cs.lab.tgargula.elements.tanks.PlayerTank;
 import pl.edu.agh.cs.lab.tgargula.worldmap.interfaces.IWorldMap;
 
 public class Engine implements IEngine {
@@ -29,15 +30,25 @@ public class Engine implements IEngine {
     }
 
     @Override
-    public ITank getPlayerTank() {
-        return worldMap.getPlayerTank();
+    public PlayerTank getPlayerTank() {
+        return (PlayerTank) worldMap.getPlayerTank();
     }
 
     @Override
     public void update(KeyEvent event) {
         KeyEventListener.update(this, event);
-        if (KeyEventListener.isCrucial(event))
-            worldMap.nextStep();
+        PlayerTank playerTank = getPlayerTank();
+        if (KeyEventListener.isCrucial(event)) {
+            if (KeyEventListener.isShot(event)) {
+                worldMap.nextStep();
+                add(playerTank.shoot());
+            }
+            else {
+                if (!worldMap.isOccupied(playerTank.nextPosition()))
+                    playerTank.move();
+                worldMap.nextStep();
+            }
+        }
     }
 
     @Override

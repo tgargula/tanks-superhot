@@ -48,19 +48,19 @@ public class WorldMap implements IWorldMap {
     @Override
     public void nextStep() {
         takeDamage();
-        setDirectionsOfEnemyTanks();
+        setDirectionOfEnemyTanks();
         move();
     }
 
     private void move() {
         Set.copyOf(elements.values()).stream()
-                .filter(element -> element instanceof IMovable)
+                .filter(element -> element instanceof IMovable && !(element instanceof PlayerTank))
                 .map(element -> (IMovable) element)
                 .filter(element -> !isOccupied(element.nextPosition()))
                 .forEach(IMovable::move);
     }
 
-    private void setDirectionsOfEnemyTanks() {
+    private void setDirectionOfEnemyTanks() {
         Set.copyOf(elements.values()).stream()
                 .filter(element -> element instanceof EnemyTank)
                 .forEach(element -> ((EnemyTank) element).changeDirection(getPlayerTank()));
