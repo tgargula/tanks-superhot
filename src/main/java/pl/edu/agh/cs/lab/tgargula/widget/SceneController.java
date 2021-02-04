@@ -45,16 +45,18 @@ public class SceneController {
 
         // Tests
 
+
         // worldMap
-//        engine.add(new CommonBullet(Position.of(0, 0), Direction.EAST));
-//        engine.add(new FastBullet(Position.of(1, 0), Direction.EAST));
-        engine.add(new CommonBullet(Position.of(15, 6), Direction.NORTH));
-//        engine.add(new StrongBullet(Position.of(2, 0), Direction.NORTHEAST));
-//        engine.add(new BouncyBullet(Position.of(3, 0), Direction.WEST));
-        engine.add(new PlayerTank(Position.of(0, 1), 10));
+////        engine.add(new CommonBullet(Position.of(0, 0), Direction.EAST));
+////        engine.add(new FastBullet(Position.of(1, 0), Direction.EAST));
+        engine.add(new CommonBullet(Position.of(15, 6), Direction.WEST));
+////        engine.add(new StrongBullet(Position.of(2, 0), Direction.NORTHEAST));
+////        engine.add(new BouncyBullet(Position.of(3, 0), Direction.WEST));
+        engine.add(new PlayerTank(Position.of(1, 1), 10));
         engine.add(new EnemyTank(Position.of(13, 13), 1));
-//        engine.add(new ImmortalityPowerUp(Position.of(2, 1)));
-//        engine.add(new Obstacle(Position.of(3,1)));
+////        engine.add(new ImmortalityPowerUp(Position.of(2, 1)));
+////        engine.add(new Obstacle(Position.of(3,1)));
+//        engine.add(new Obstacle(Position.of(0,0)));
 
         // lifePane
         lifePane.getChildren().add(new Heart().getImageView());

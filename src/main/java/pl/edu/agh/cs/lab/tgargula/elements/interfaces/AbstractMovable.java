@@ -24,9 +24,13 @@ public abstract class AbstractMovable extends AbstractElement implements IMovabl
     }
 
     @Override
+    public Position nextPosition() {
+        return position.add(direction.toUnitVector());
+    }
+
+    @Override
     public void move() {
-        System.out.println(this);
-        this.position = position.add(direction.toUnitVector());
+        this.position = nextPosition();
         this.update();
     }
 

@@ -9,6 +9,8 @@ public interface IMovable extends IElement {
 
     void setPosition(Position position);
 
+    Position nextPosition();
+
     void move();
 
 }

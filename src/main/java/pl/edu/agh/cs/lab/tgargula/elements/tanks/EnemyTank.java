@@ -24,4 +24,13 @@ public class EnemyTank extends AbstractTank {
     public IBullet shoot() {
         return null;
     }
+    
+    @Override
+    public Position nextPosition() {
+        return super.nextPosition();
+    }
+    
+    public void changeDirectionToFocusOnPlayer(PlayerTank player) {
+        
+    }
 }

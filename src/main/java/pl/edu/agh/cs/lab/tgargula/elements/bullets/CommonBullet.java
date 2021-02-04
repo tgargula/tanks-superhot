@@ -7,7 +7,7 @@ import pl.edu.agh.cs.lab.tgargula.basics.Position;
 public class CommonBullet extends AbstractBullet {
 
     public CommonBullet(Position position, Direction direction) {
-        super(position, direction, new ImageView("common_bullet.png"));
+        super(position, direction, new ImageView("images/common_bullet.png"));
     }
 
 }

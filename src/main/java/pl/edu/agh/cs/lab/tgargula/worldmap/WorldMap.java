@@ -1,6 +1,7 @@
 package pl.edu.agh.cs.lab.tgargula.worldmap;
 
 import pl.edu.agh.cs.lab.tgargula.basics.Position;
+import pl.edu.agh.cs.lab.tgargula.elements.interfaces.IDamageable;
 import pl.edu.agh.cs.lab.tgargula.elements.interfaces.IElement;
 import pl.edu.agh.cs.lab.tgargula.elements.interfaces.IMovable;
 import pl.edu.agh.cs.lab.tgargula.elements.interfaces.ITank;
@@ -48,8 +49,24 @@ public class WorldMap implements IWorldMap {
 
     @Override
     public void nextStep() {
-        Set.copyOf(elements.values()).stream().filter(element -> element instanceof IMovable)
-                .forEach(element -> ((IMovable) element).move());
+        move();
+        takeDamage();
+    }
+
+    private void move() {
+        Set.copyOf(elements.values()).stream()
+                .filter(element -> element instanceof IMovable)
+                .map(element -> (IMovable) element)
+                .filter(element -> !isOccupied(element.nextPosition()))
+                .forEach(IMovable::move);
+    }
+
+    private void takeDamage() {
+        Set.copyOf(elements.values()).stream()
+                .filter(element -> element instanceof IMovable)
+                .map(element -> getElementAt(((IMovable) element).nextPosition()))
+                .filter(element -> element instanceof IDamageable)
+                .forEach(element -> ((IDamageable) element).beDamaged(1));
     }
 
     @Override
