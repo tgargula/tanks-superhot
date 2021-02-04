@@ -4,7 +4,7 @@ import javafx.scene.image.ImageView;
 
 public abstract class AbstractVisible implements IVisible {
 
-    protected final ImageView imageView;
+    protected ImageView imageView;
 
     protected AbstractVisible(ImageView imageView) {
         this.imageView = imageView;

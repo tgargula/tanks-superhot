@@ -1,12 +1,9 @@
 package pl.edu.agh.cs.lab.tgargula.worldmap;
 
 import pl.edu.agh.cs.lab.tgargula.basics.Position;
-import pl.edu.agh.cs.lab.tgargula.elements.interfaces.IDamageable;
-import pl.edu.agh.cs.lab.tgargula.elements.interfaces.IElement;
-import pl.edu.agh.cs.lab.tgargula.elements.interfaces.IMovable;
-import pl.edu.agh.cs.lab.tgargula.elements.interfaces.ITank;
+import pl.edu.agh.cs.lab.tgargula.elements.interfaces.*;
+import pl.edu.agh.cs.lab.tgargula.elements.tanks.EnemyTank;
 import pl.edu.agh.cs.lab.tgargula.elements.tanks.PlayerTank;
-import pl.edu.agh.cs.lab.tgargula.engine.IEngine;
 import pl.edu.agh.cs.lab.tgargula.worldmap.interfaces.IWorldMap;
 
 import java.util.LinkedList;
@@ -14,10 +11,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 public class WorldMap implements IWorldMap {
 
-    private final List<ITank> players = new LinkedList<>();
+    private final List<PlayerTank> players = new LinkedList<>();
     private final Map<Position, IElement> elements = new ConcurrentHashMap<>();
     private final Map<IElement, Position> positions = new ConcurrentHashMap<>();
     private final int size;
@@ -42,15 +40,16 @@ public class WorldMap implements IWorldMap {
     }
 
     @Override
-    public ITank getPlayerTank() {
+    public PlayerTank getPlayerTank() {
         // TODO
         return players.get(0);
     }
 
     @Override
     public void nextStep() {
-        move();
         takeDamage();
+        setDirectionsOfEnemyTanks();
+        move();
     }
 
     private void move() {
@@ -61,12 +60,22 @@ public class WorldMap implements IWorldMap {
                 .forEach(IMovable::move);
     }
 
+    private void setDirectionsOfEnemyTanks() {
+        Set.copyOf(elements.values()).stream()
+                .filter(element -> element instanceof EnemyTank)
+                .forEach(element -> ((EnemyTank) element).changeDirection(getPlayerTank()));
+    }
+
     private void takeDamage() {
         Set.copyOf(elements.values()).stream()
-                .filter(element -> element instanceof IMovable)
-                .map(element -> getElementAt(((IMovable) element).nextPosition()))
-                .filter(element -> element instanceof IDamageable)
-                .forEach(element -> ((IDamageable) element).beDamaged(1));
+                .filter(element -> element instanceof IBullet)
+                .map(element -> (IBullet) element)
+                .filter(bullet -> isOccupied(bullet.nextPosition()))
+                .filter(bullet -> getElementAt(bullet.nextPosition()) instanceof IDamageable)
+                .forEach(bullet -> {
+                    bullet.takeDamage((IDamageable) getElementAt(bullet.nextPosition()));
+                    bullet.destroy();
+                });
     }
 
     @Override
@@ -75,7 +84,7 @@ public class WorldMap implements IWorldMap {
         positions.put(element, element.getPosition());
         element.addObserver(this);
         if (element instanceof PlayerTank)
-            players.add((ITank) element);
+            players.add((PlayerTank) element);
     }
 
     @SuppressWarnings("SuspiciousMethodCalls")

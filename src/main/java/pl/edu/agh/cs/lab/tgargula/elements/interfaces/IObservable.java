@@ -10,4 +10,6 @@ public interface IObservable {
 
     void update();
 
+    void destroy();
+
 }

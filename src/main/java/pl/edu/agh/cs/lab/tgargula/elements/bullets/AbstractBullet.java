@@ -5,6 +5,7 @@ import pl.edu.agh.cs.lab.tgargula.basics.Direction;
 import pl.edu.agh.cs.lab.tgargula.basics.Position;
 import pl.edu.agh.cs.lab.tgargula.elements.interfaces.AbstractMovable;
 import pl.edu.agh.cs.lab.tgargula.elements.interfaces.IBullet;
+import pl.edu.agh.cs.lab.tgargula.elements.interfaces.IDamageable;
 import pl.edu.agh.cs.lab.tgargula.elements.interfaces.ITank;
 
 public abstract class AbstractBullet extends AbstractMovable implements IBullet {
@@ -17,7 +18,7 @@ public abstract class AbstractBullet extends AbstractMovable implements IBullet 
     }
 
     @Override
-    public void takeDamage(ITank tank) {
-        tank.beDamaged(1);
+    public void takeDamage(IDamageable damageable) {
+        damageable.beDamaged(1);
     }
 }

@@ -37,4 +37,9 @@ public abstract class AbstractElement extends AbstractVisible implements IElemen
         observers.forEach(observer -> observer.changePosition(this));
     }
 
+    @Override
+    public void destroy() {
+        observers.forEach(observer -> observer.stopObserving(this));
+    }
+
 }

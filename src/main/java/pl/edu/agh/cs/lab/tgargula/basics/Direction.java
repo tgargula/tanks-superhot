@@ -1,7 +1,6 @@
 package pl.edu.agh.cs.lab.tgargula.basics;
 
-import javafx.scene.input.KeyEvent;
-import pl.edu.agh.cs.lab.tgargula.elements.interfaces.ITank;
+import static java.lang.Math.PI;
 
 public enum Direction {
     EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST, NORTH, NORTHEAST;
@@ -32,6 +31,40 @@ public enum Direction {
         };
     }
 
+    public static Direction getMoveDirection(double angle) {
+        if (3 * PI / 4 < angle || angle <= -3 * PI / 4)
+            return Direction.WEST;
+        if (angle <= -PI / 4)
+            return Direction.NORTH;
+        if (angle <= PI / 4)
+            return Direction.EAST;
+        if (angle <= 3 * PI / 4)
+            return Direction.SOUTH;
+
+        throw new IllegalArgumentException();
+    }
+
+    public static Direction getShootDirection(double angle) {
+        if (7 * PI / 8 < angle || angle <= -7 * PI / 8)
+            return Direction.WEST;
+        if (angle <= -5 * PI / 8)
+            return Direction.NORTHWEST;
+        if (angle <= -3 * PI / 8)
+            return Direction.NORTH;
+        if (angle <= -PI / 8)
+            return Direction.NORTHEAST;
+        if (angle <= PI / 8)
+            return Direction.EAST;
+        if (angle <= 3 * PI / 8)
+            return Direction.SOUTHEAST;
+        if (angle <= 5 * PI / 8)
+            return Direction.SOUTH;
+        if (angle <= 7 * PI / 8)
+            return Direction.SOUTHWEST;
+
+        throw new IllegalArgumentException();
+    }
+
     public Direction rotateLeft() {
         return rotate(NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST, NORTH);
     }
@@ -53,22 +86,4 @@ public enum Direction {
             case NORTHEAST -> mapNortheast;
         };
     }
-
-    // Move ?
-//    public static void processEvent(ITank player, KeyEvent event) {
-//        switch (event.getCode().toString()) {
-//            case "LEFT" -> player.move(Direction.WEST);
-//            case "DOWN" -> player.move(Direction.SOUTH);
-//            case "RIGHT" -> player.move(Direction.EAST);
-//            case "UP" -> player.move(Direction.NORTH);
-//            case "W" -> player.setDirection(Direction.NORTH);
-//            case "E" -> player.setDirection(Direction.NORTHEAST);
-//            case "D" -> player.setDirection(Direction.EAST);
-//            case "C" -> player.setDirection(Direction.SOUTHEAST);
-//            case "X" -> player.setDirection(Direction.SOUTH);
-//            case "Z" -> player.setDirection(Direction.SOUTHWEST);
-//            case "A" -> player.setDirection(Direction.WEST);
-//            case "Q" -> player.setDirection(Direction.NORTHWEST);
-//        }
-//    }
 }

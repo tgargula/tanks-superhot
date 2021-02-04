@@ -7,32 +7,29 @@ import pl.edu.agh.cs.lab.tgargula.elements.interfaces.IDamageable;
 
 public class Obstacle extends AbstractElement implements IDamageable {
 
-    private final boolean destroyable;
-
-    private int durability = 1;
+    private int durability;
 
     public Obstacle(Position position) {
         this(position, true);
     }
 
     public Obstacle(Position position, boolean destroyable) {
-        super(position, new ImageView("/images/obstacle.png"));
-        this.destroyable = destroyable;
+        super(
+                position,
+                destroyable ? new ImageView("/images/obstacle2.png") : new ImageView("/images/obstacle3.png")
+        );
+        this.durability = destroyable ? 2 : Integer.MAX_VALUE;
     }
 
     @Override
     public void beDamaged(int damage) {
-        if (!destroyable)
-            durability -= 1;
+        durability -= damage;
+        if (durability == 2)
+            this.imageView = new ImageView("/images/obstacle2.png");
+        if (durability == 1)
+            this.imageView = new ImageView("/images/obstacle1.png");
         if (durability <= 0)
-            beDestroyed();
-    }
-
-    @Override
-    public void beDestroyed() {
-        if (!destroyable) {
-
-        }
+            destroy();
     }
 
 }

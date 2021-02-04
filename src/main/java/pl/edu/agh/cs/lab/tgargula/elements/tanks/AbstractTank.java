@@ -23,11 +23,7 @@ public abstract class AbstractTank extends AbstractMovable implements ITank {
     @Override
     public void beDamaged(int damage) {
         this.currentDurability -= damage;
-        if (currentDurability <= 0) beDestroyed();
-    }
-
-    @Override
-    public void beDestroyed() {
+        if (currentDurability <= 0) destroy();
     }
 
     @Override

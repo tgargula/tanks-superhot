@@ -17,11 +17,6 @@ public class PlayerTank extends AbstractTank {
     }
 
     @Override
-    public void beDestroyed() {
-
-    }
-
-    @Override
     public IBullet shoot() {
         return null;
     }

@@ -31,9 +31,23 @@ public final class Position {
         return Position.of(this.x - other.x, this.y - other.y);
     }
 
-    public Direction shootDirection(Position playerPosition) {
-        Position relativePosition = this.subtract(playerPosition);
-        return null;
+    public Direction bestShootDirection(Position playerPosition) {
+        Position relativePosition = playerPosition.subtract(this);
+        return Direction.getShootDirection(relativePosition.getAngle());
+    }
+
+    public Direction bestMoveDirection(Position playerPosition) {
+        Position relativePosition = playerPosition.subtract(this);
+        return Direction.getMoveDirection(relativePosition.getAngle());
+    }
+
+    private double getAngle() {
+        double acos = Math.acos(x / norm());
+        return y < 0 ? -acos : acos;
+    }
+
+    private double norm() {
+        return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
     }
 
     @Override

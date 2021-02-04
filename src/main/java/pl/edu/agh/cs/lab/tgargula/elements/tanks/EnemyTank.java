@@ -6,17 +6,14 @@ import pl.edu.agh.cs.lab.tgargula.elements.interfaces.IBullet;
 
 public class EnemyTank extends AbstractTank {
 
+    private final EnemyTankAI tankAI = new EnemyTankAI(this);
+
     public EnemyTank(Position position, int durability) {
         super(position, durability, new ImageView("/images/enemy_tank.png"));
     }
 
     @Override
     public void beDamaged(int damage) {
-
-    }
-
-    @Override
-    public void beDestroyed() {
 
     }
 
@@ -30,7 +27,7 @@ public class EnemyTank extends AbstractTank {
         return super.nextPosition();
     }
     
-    public void changeDirectionToFocusOnPlayer(PlayerTank player) {
-        
+    public void changeDirection(PlayerTank player) {
+        this.direction = tankAI.bestMoveDirection(player);
     }
 }
