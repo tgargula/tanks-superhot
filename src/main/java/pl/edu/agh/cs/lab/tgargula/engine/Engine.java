@@ -1,20 +1,26 @@
 package pl.edu.agh.cs.lab.tgargula.engine;
 
 import javafx.scene.input.KeyEvent;
+import pl.edu.agh.cs.lab.tgargula.basics.HashSetHashMap;
 import pl.edu.agh.cs.lab.tgargula.basics.Position;
+import pl.edu.agh.cs.lab.tgargula.basics.SetMap;
 import pl.edu.agh.cs.lab.tgargula.elements.Obstacle;
 import pl.edu.agh.cs.lab.tgargula.elements.interfaces.IBullet;
 import pl.edu.agh.cs.lab.tgargula.elements.interfaces.IElement;
+import pl.edu.agh.cs.lab.tgargula.elements.interfaces.IMovable;
 import pl.edu.agh.cs.lab.tgargula.elements.interfaces.ITank;
+import pl.edu.agh.cs.lab.tgargula.elements.tanks.EnemyTank;
 import pl.edu.agh.cs.lab.tgargula.elements.tanks.PlayerTank;
-import pl.edu.agh.cs.lab.tgargula.worldmap.interfaces.IWorldMap;
+import pl.edu.agh.cs.lab.tgargula.worldmap.WorldMap;
+
+import java.util.Set;
 
 public class Engine implements IEngine {
 
-    private final IWorldMap worldMap;
+    private final WorldMap worldMap;
     private IBullet selectedBullet;
 
-    public Engine(IWorldMap worldMap) {
+    public Engine(WorldMap worldMap) {
         this.worldMap = worldMap;
         this.addObstacles();
     }
@@ -31,24 +37,59 @@ public class Engine implements IEngine {
 
     @Override
     public PlayerTank getPlayerTank() {
-        return (PlayerTank) worldMap.getPlayerTank();
+        return worldMap.getPlayerTank();
     }
 
     @Override
     public void update(KeyEvent event) {
         KeyEventListener.update(this, event);
-        PlayerTank playerTank = getPlayerTank();
+
         if (KeyEventListener.isCrucial(event)) {
-            if (KeyEventListener.isShot(event)) {
-                worldMap.nextStep();
-                add(playerTank.shoot());
-            }
-            else {
-                if (!worldMap.isOccupied(playerTank.nextPosition()))
-                    playerTank.move();
-                worldMap.nextStep();
-            }
+            SetMap<Event, ITank> events = Event.assignEvents(
+                    worldMap.getEnemyTanks(),
+                    getPlayerTank(),
+                    KeyEventListener.getEvent(event)
+            );
+
+            if (events.containsKey(Event.MOVE)) moveTanks(events.get(Event.MOVE));
+            moveBullets();
+            if (events.containsKey(Event.SHOOT)) takeShots(events.get(Event.SHOOT));
+            createNewObjects();
         }
+    }
+
+    private void moveTanks(Set<ITank> tanks) {
+        PlayerTank playerTank = getPlayerTank();
+        tanks.stream()
+                .filter(tank -> tank instanceof EnemyTank)
+                .map(tank -> (EnemyTank) tank)
+                .forEach(tank -> tank.changeDirection(playerTank));
+
+        tanks.stream()
+                .filter(tank -> !worldMap.isOccupied(tank.nextPosition()))
+                .forEach(IMovable::move);
+    }
+
+    private void moveBullets() {
+        SetMap<Position, IBullet> setMap = new HashSetHashMap<>();
+        worldMap.getBulletsAsStream().forEach(bullet -> setMap.put(bullet.nextPosition(), bullet));
+        setMap.forEach(((position, bullet) -> {
+            if (setMap.get(position).size() > 1)
+                setMap.remove(position);
+        }));
+    }
+
+    private void takeShots(Set<ITank> tanks) {
+        tanks.stream()
+                .filter(tank -> !worldMap.isOccupied(tank.nextPosition()))
+                .map(ITank::shoot)
+                .forEach(this::add);
+
+
+    }
+
+    private void createNewObjects() {
+
     }
 
     @Override

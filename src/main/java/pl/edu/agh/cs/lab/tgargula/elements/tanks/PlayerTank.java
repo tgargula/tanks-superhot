@@ -13,11 +13,6 @@ public class PlayerTank extends AbstractTank {
     }
 
     @Override
-    public void beDamaged(int damage) {
-
-    }
-
-    @Override
     public IBullet shoot() {
         return new CommonBullet(nextPosition(), direction);
     }

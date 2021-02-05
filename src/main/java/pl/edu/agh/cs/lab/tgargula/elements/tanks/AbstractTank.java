@@ -3,8 +3,10 @@ package pl.edu.agh.cs.lab.tgargula.elements.tanks;
 import javafx.scene.image.ImageView;
 import pl.edu.agh.cs.lab.tgargula.basics.Direction;
 import pl.edu.agh.cs.lab.tgargula.basics.Position;
+import pl.edu.agh.cs.lab.tgargula.elements.bullets.CommonBullet;
 import pl.edu.agh.cs.lab.tgargula.elements.interfaces.AbstractMovable;
 import pl.edu.agh.cs.lab.tgargula.elements.interfaces.IBullet;
+import pl.edu.agh.cs.lab.tgargula.elements.interfaces.IDamageable;
 import pl.edu.agh.cs.lab.tgargula.elements.interfaces.ITank;
 
 import java.util.Random;
@@ -35,7 +37,7 @@ public abstract class AbstractTank extends AbstractMovable implements ITank {
 
     @Override
     public IBullet shoot() {
-        return null;
+        return new CommonBullet(nextPosition(), direction);
     }
 
     @Override

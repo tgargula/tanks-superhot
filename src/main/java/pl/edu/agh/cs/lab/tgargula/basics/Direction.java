@@ -1,6 +1,7 @@
 package pl.edu.agh.cs.lab.tgargula.basics;
 
 import static java.lang.Math.PI;
+import static java.lang.Math.abs;
 
 public enum Direction {
     EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST, NORTH, NORTHEAST;
@@ -31,36 +32,43 @@ public enum Direction {
         };
     }
 
-    public static Direction getMoveDirection(double angle) {
-        if (3 * PI / 4 < angle || angle <= -3 * PI / 4)
-            return Direction.WEST;
-        if (angle <= -PI / 4)
-            return Direction.NORTH;
-        if (angle <= PI / 4)
-            return Direction.EAST;
-        if (angle <= 3 * PI / 4)
-            return Direction.SOUTH;
+    private static Direction draw(Direction first, Direction second) {
+        return Math.random() < 0.5 ? first : second;
+    }
 
-        throw new IllegalArgumentException();
+    public static Direction getMoveDirection(Position relativePosition) {
+        int x = relativePosition.x;
+        int y = relativePosition.y;
+
+        if (x > abs(y)) return EAST;
+        if (y > abs(x)) return SOUTH;
+        if (-x > abs(y)) return WEST;
+        if (-y > abs(x)) return NORTH;
+        if (x == y)
+            if (x > 0) return draw(SOUTH, EAST);
+            else return draw(NORTH, WEST);
+        else
+            if (x > 0) return draw(NORTH, EAST);
+            else return draw(SOUTH, WEST);
     }
 
     public static Direction getShootDirection(double angle) {
         if (7 * PI / 8 < angle || angle <= -7 * PI / 8)
-            return Direction.WEST;
+            return WEST;
         if (angle <= -5 * PI / 8)
-            return Direction.NORTHWEST;
+            return NORTHWEST;
         if (angle <= -3 * PI / 8)
-            return Direction.NORTH;
+            return NORTH;
         if (angle <= -PI / 8)
-            return Direction.NORTHEAST;
+            return NORTHEAST;
         if (angle <= PI / 8)
-            return Direction.EAST;
+            return EAST;
         if (angle <= 3 * PI / 8)
-            return Direction.SOUTHEAST;
+            return SOUTHEAST;
         if (angle <= 5 * PI / 8)
-            return Direction.SOUTH;
+            return SOUTH;
         if (angle <= 7 * PI / 8)
-            return Direction.SOUTHWEST;
+            return SOUTHWEST;
 
         throw new IllegalArgumentException();
     }

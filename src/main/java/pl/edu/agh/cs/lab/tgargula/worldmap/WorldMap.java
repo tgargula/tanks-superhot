@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class WorldMap implements IWorldMap {
 
@@ -41,8 +42,20 @@ public class WorldMap implements IWorldMap {
 
     @Override
     public PlayerTank getPlayerTank() {
-        // TODO
         return players.get(0);
+    }
+
+    public List<ITank> getEnemyTanks() {
+        return Set.copyOf(elements.values()).stream()
+                .filter(element -> element instanceof EnemyTank)
+                .map(element -> (ITank) element)
+                .collect(Collectors.toList());
+    }
+
+    public Stream<IBullet> getBulletsAsStream() {
+        return Set.copyOf(elements.values()).stream()
+                .filter(element -> element instanceof IBullet)
+                .map(element -> (IBullet) element);
     }
 
     @Override
@@ -61,9 +74,11 @@ public class WorldMap implements IWorldMap {
     }
 
     private void setDirectionOfEnemyTanks() {
+        PlayerTank playerTank = getPlayerTank();
         Set.copyOf(elements.values()).stream()
                 .filter(element -> element instanceof EnemyTank)
-                .forEach(element -> ((EnemyTank) element).changeDirection(getPlayerTank()));
+                .map(element -> (EnemyTank) element)
+                .forEach(tank -> tank.changeDirection(playerTank));
     }
 
     private void takeDamage() {

@@ -6,11 +6,16 @@ import pl.edu.agh.cs.lab.tgargula.elements.interfaces.ITank;
 
 public class KeyEventListener {
 
-    public static boolean isCrucial(KeyEvent event) {
-        return switch (event.getCode().toString()) {
-            case "W", "A", "S", "D", "SPACE", "LEFT", "RIGHT", "UP", "DOWN" -> true;
-            default -> false;
+    public static Event getEvent(KeyEvent keyEvent) {
+        return switch(keyEvent.getCode().toString()) {
+            case "W", "A", "S", "D", "LEFT", "RIGHT", "UP", "DOWN" -> Event.MOVE;
+            case "SPACE" -> Event.SHOOT;
+            default -> Event.NULL;
         };
+    }
+
+    public static boolean isCrucial(KeyEvent keyEvent) {
+        return !getEvent(keyEvent).equals(Event.NULL);
     }
 
     public static void update(IEngine engine, KeyEvent event) {
@@ -25,9 +30,4 @@ public class KeyEventListener {
             case "E", "Q", "1", "2", "3", "4" -> engine.changeBullet(event);
         }
     }
-
-    public static boolean isShot(KeyEvent event) {
-        return event.getCode().toString().equals("SPACE");
-    }
-
 }

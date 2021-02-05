@@ -38,7 +38,7 @@ public final class Position {
 
     public Direction bestMoveDirection(Position playerPosition) {
         Position relativePosition = playerPosition.subtract(this);
-        return Direction.getMoveDirection(relativePosition.getAngle());
+        return Direction.getMoveDirection(relativePosition);
     }
 
     private double getAngle() {
