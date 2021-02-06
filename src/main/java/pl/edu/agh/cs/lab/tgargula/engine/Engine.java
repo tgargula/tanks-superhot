@@ -5,15 +5,17 @@ import pl.edu.agh.cs.lab.tgargula.basics.HashSetHashMap;
 import pl.edu.agh.cs.lab.tgargula.basics.Position;
 import pl.edu.agh.cs.lab.tgargula.basics.SetMap;
 import pl.edu.agh.cs.lab.tgargula.elements.Obstacle;
-import pl.edu.agh.cs.lab.tgargula.elements.interfaces.IBullet;
-import pl.edu.agh.cs.lab.tgargula.elements.interfaces.IElement;
-import pl.edu.agh.cs.lab.tgargula.elements.interfaces.IMovable;
-import pl.edu.agh.cs.lab.tgargula.elements.interfaces.ITank;
+import pl.edu.agh.cs.lab.tgargula.elements.interfaces.*;
 import pl.edu.agh.cs.lab.tgargula.elements.tanks.EnemyTank;
 import pl.edu.agh.cs.lab.tgargula.elements.tanks.PlayerTank;
 import pl.edu.agh.cs.lab.tgargula.worldmap.WorldMap;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Engine implements IEngine {
 
@@ -51,20 +53,28 @@ public class Engine implements IEngine {
                     KeyEventListener.getEvent(event)
             );
 
-            if (events.containsKey(Event.MOVE)) moveTanks(events.get(Event.MOVE));
+            if (events.containsKey(Event.MOVE))
+                moveTanks(events.get(Event.MOVE));
+
             moveBullets();
-            if (events.containsKey(Event.SHOOT)) takeShots(events.get(Event.SHOOT));
+
+            if (events.containsKey(Event.SHOOT))
+                takeShots(events.get(Event.SHOOT));
+
             createNewObjects();
         }
     }
 
     private void moveTanks(Set<ITank> tanks) {
         PlayerTank playerTank = getPlayerTank();
+
+        // Change direction of enemy tanks
         tanks.stream()
                 .filter(tank -> tank instanceof EnemyTank)
                 .map(tank -> (EnemyTank) tank)
                 .forEach(tank -> tank.changeDirection(playerTank));
 
+        // Move tanks if the space is not occupied
         tanks.stream()
                 .filter(tank -> !worldMap.isOccupied(tank.nextPosition()))
                 .forEach(IMovable::move);
@@ -73,18 +83,41 @@ public class Engine implements IEngine {
     private void moveBullets() {
         SetMap<Position, IBullet> setMap = new HashSetHashMap<>();
         worldMap.getBulletsAsStream().forEach(bullet -> setMap.put(bullet.nextPosition(), bullet));
-        setMap.forEach(((position, bullet) -> {
-            if (setMap.get(position).size() > 1)
-                setMap.remove(position);
-        }));
+
+        // Remove bullets that overlap
+        Stream<Map.Entry<Position, Set<IBullet>>> setMapStream = setMap.stream()
+                .filter(entry -> entry.getValue().size() == 1);
+
+        // Take damage
+        setMapStream
+                .filter(entry -> worldMap.isOccupied(entry.getKey()))
+                .map(entry -> Map.entry(
+                        new LinkedList<>(entry.getValue()).get(0),
+                        worldMap.getElementAt(entry.getKey())
+                ))
+                .filter(entry -> entry.getValue() instanceof IDamageable)
+                .forEach(entry -> entry.getKey().takeDamage((IDamageable) entry.getValue()));
+
+        Map<Position, IBullet> bullets = setMap.flatten();
+
+        // Apply moves
+        worldMap.updateBullets(bullets);
     }
 
     private void takeShots(Set<ITank> tanks) {
+
+        // Add bullets to the map if the field is not occupied
         tanks.stream()
                 .filter(tank -> !worldMap.isOccupied(tank.nextPosition()))
                 .map(ITank::shoot)
                 .forEach(this::add);
 
+        // Otherwise take instant damage
+        tanks.stream()
+                .filter(tank -> worldMap.isOccupied(tank.nextPosition()))
+                .filter(tank -> worldMap.getElementAt(tank.nextPosition()) instanceof IDamageable)
+                .map(ITank::shoot)
+                .forEach(bullet -> bullet.takeDamage((IDamageable) worldMap.getElementAt(bullet.getPosition())));
 
     }
 

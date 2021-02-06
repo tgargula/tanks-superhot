@@ -2,6 +2,7 @@ package pl.edu.agh.cs.lab.tgargula.basics;
 
 import java.util.*;
 import java.util.function.BiConsumer;
+import java.util.stream.Stream;
 
 public class HashSetHashMap<K, V> implements SetMap<K, V> {
 
@@ -40,7 +41,7 @@ public class HashSetHashMap<K, V> implements SetMap<K, V> {
 
     @Override
     public void put(K key, V value) {
-        if (containsKey(key))
+        if (!containsKey(key))
             structure.put(key, new HashSet<>());
         get(key).add(value);
     }
@@ -81,4 +82,25 @@ public class HashSetHashMap<K, V> implements SetMap<K, V> {
             for (V value : get(key))
                 action.accept(key, value);
     }
+
+    @Override
+    public String toString() {
+        return structure.toString();
+    }
+
+    @Override
+    public Stream<Map.Entry<K, Set<V>>> stream() {
+        return structure.entrySet().stream();
+    }
+
+    @Override
+    public Map<K, V> flatten() {
+        Map<K, V> result = new HashMap<>();
+        structure.forEach(
+                (key, set) -> set.stream().findAny().ifPresent(v -> result.put(key, v))
+        );
+        return result;
+    }
+
+
 }

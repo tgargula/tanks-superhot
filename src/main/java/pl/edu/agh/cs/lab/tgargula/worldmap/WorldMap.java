@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -56,6 +57,14 @@ public class WorldMap implements IWorldMap {
         return Set.copyOf(elements.values()).stream()
                 .filter(element -> element instanceof IBullet)
                 .map(element -> (IBullet) element);
+    }
+
+    public void updateBullets(Map<Position, IBullet> newBullets) {
+        getBulletsAsStream().forEach(this::stopObserving);
+        newBullets.forEach((position, bullet) -> {
+            bullet.setPosition(position);
+            this.observe(bullet);
+        });
     }
 
     @Override
