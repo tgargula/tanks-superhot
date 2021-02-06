@@ -4,18 +4,18 @@ import javafx.scene.input.KeyEvent;
 import pl.edu.agh.cs.lab.tgargula.basics.HashSetHashMap;
 import pl.edu.agh.cs.lab.tgargula.basics.Position;
 import pl.edu.agh.cs.lab.tgargula.basics.SetMap;
+import pl.edu.agh.cs.lab.tgargula.elements.Fire;
 import pl.edu.agh.cs.lab.tgargula.elements.Obstacle;
 import pl.edu.agh.cs.lab.tgargula.elements.interfaces.*;
 import pl.edu.agh.cs.lab.tgargula.elements.tanks.EnemyTank;
 import pl.edu.agh.cs.lab.tgargula.elements.tanks.PlayerTank;
 import pl.edu.agh.cs.lab.tgargula.worldmap.WorldMap;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Engine implements IEngine {
 
@@ -47,6 +47,8 @@ public class Engine implements IEngine {
         KeyEventListener.update(this, event);
 
         if (KeyEventListener.isCrucial(event)) {
+            worldMap.removeDestroyedElements();
+
             SetMap<Event, ITank> events = Event.assignEvents(
                     worldMap.getEnemyTanks(),
                     getPlayerTank(),
@@ -61,7 +63,7 @@ public class Engine implements IEngine {
             if (events.containsKey(Event.SHOOT))
                 takeShots(events.get(Event.SHOOT));
 
-            createNewObjects();
+//            createNewObjects();
         }
     }
 
@@ -84,27 +86,32 @@ public class Engine implements IEngine {
         SetMap<Position, IBullet> setMap = new HashSetHashMap<>();
         worldMap.getBulletsAsStream().forEach(bullet -> setMap.put(bullet.nextPosition(), bullet));
 
-        // Remove bullets that overlap
-        Stream<Map.Entry<Position, Set<IBullet>>> setMapStream = setMap.stream()
-                .filter(entry -> entry.getValue().size() == 1);
+        Map<Position, IBullet> bullets = setMap.flatten();
+        Set<Position> positionsWithFire = setMap.keySet();
+        positionsWithFire.removeAll(bullets.keySet());
+        positionsWithFire.forEach(position -> add(new Fire(position)));
+
+        Map<Position, IBullet> notDestructedBullets = new HashMap<>();
 
         // Take damage
-        setMapStream
-                .filter(entry -> worldMap.isOccupied(entry.getKey()))
-                .map(entry -> Map.entry(
-                        new LinkedList<>(entry.getValue()).get(0),
-                        worldMap.getElementAt(entry.getKey())
-                ))
-                .filter(entry -> entry.getValue() instanceof IDamageable)
-                .forEach(entry -> entry.getKey().takeDamage((IDamageable) entry.getValue()));
-
-        Map<Position, IBullet> bullets = setMap.flatten();
+        bullets.forEach((position, bullet) -> {
+            if (worldMap.isOccupied(position)) {
+                IElement element = worldMap.getElementAt(position);
+                if (element instanceof IDamageable)
+                    bullet.takeDamage((IDamageable) worldMap.getElementAt(position));
+            } else notDestructedBullets.put(position, bullet);
+        });
 
         // Apply moves
-        worldMap.updateBullets(bullets);
+        worldMap.updateBullets(notDestructedBullets);
     }
 
     private void takeShots(Set<ITank> tanks) {
+
+        // Rotate enemy tanks towards player
+        tanks.stream()
+                .filter(tank -> tank instanceof EnemyTank)
+                .forEach(tank -> ((EnemyTank) tank).changeDirection(getPlayerTank()));
 
         // Add bullets to the map if the field is not occupied
         tanks.stream()
@@ -122,7 +129,7 @@ public class Engine implements IEngine {
     }
 
     private void createNewObjects() {
-
+        worldMap.createNewEnemyTank();
     }
 
     @Override

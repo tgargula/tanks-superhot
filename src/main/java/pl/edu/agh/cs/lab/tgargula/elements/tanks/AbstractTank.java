@@ -25,14 +25,11 @@ public abstract class AbstractTank extends AbstractMovable implements ITank {
     @Override
     public void beDamaged(int damage) {
         this.currentDurability -= damage;
-        if (currentDurability <= 0) destroy();
     }
 
     @Override
-    public void move(Direction direction) {
-        this.position = this.position.add(direction.toUnitVector());
-        this.direction = direction;
-        this.update();
+    public boolean isDestroyed() {
+        return this.currentDurability <= 0;
     }
 
     @Override

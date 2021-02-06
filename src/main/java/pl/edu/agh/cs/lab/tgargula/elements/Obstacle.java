@@ -28,8 +28,11 @@ public class Obstacle extends AbstractElement implements IDamageable {
             this.imageView = new ImageView("/images/obstacle2.png");
         if (durability == 1)
             this.imageView = new ImageView("/images/obstacle1.png");
-        if (durability <= 0)
-            destroy();
+    }
+
+    @Override
+    public boolean isDestroyed() {
+        return this.durability <= 0;
     }
 
 }

@@ -4,4 +4,6 @@ public interface IDamageable extends IElement {
 
     void beDamaged(int damage);
 
+    boolean isDestroyed();
+
 }

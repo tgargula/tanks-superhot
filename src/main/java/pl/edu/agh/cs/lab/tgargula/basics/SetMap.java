@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiConsumer;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public interface SetMap<K, V> {
@@ -31,8 +32,6 @@ public interface SetMap<K, V> {
     Collection<V> values();
 
     void forEach(BiConsumer<? super K, ? super V> action);
-
-    Stream<Map.Entry<K, Set<V>>> stream();
 
     Map<K, V> flatten();
 
