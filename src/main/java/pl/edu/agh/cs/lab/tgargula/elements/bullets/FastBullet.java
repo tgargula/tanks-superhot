@@ -16,4 +16,9 @@ public class FastBullet extends AbstractBullet {
         super.move();
         super.move();
     }
+
+    @Override
+    public Position nextPosition() {
+        return super.nextPosition();
+    }
 }

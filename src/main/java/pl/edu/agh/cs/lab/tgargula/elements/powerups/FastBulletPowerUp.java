@@ -1,15 +1,17 @@
 package pl.edu.agh.cs.lab.tgargula.elements.powerups;
 
 import pl.edu.agh.cs.lab.tgargula.basics.Position;
+import pl.edu.agh.cs.lab.tgargula.elements.bullets.Bullets;
+import pl.edu.agh.cs.lab.tgargula.engine.Engine;
 
 public class FastBulletPowerUp extends AbstractPowerUp {
 
-    public FastBulletPowerUp(Position position) {
-        super(position);
+    public FastBulletPowerUp(Engine engine, Position position) {
+        super(engine, position);
     }
 
     @Override
     public void use() {
-
+        engine.addBullet(Bullets.FAST);
     }
 }

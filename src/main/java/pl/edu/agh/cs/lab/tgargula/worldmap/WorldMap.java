@@ -1,11 +1,14 @@
 package pl.edu.agh.cs.lab.tgargula.worldmap;
 
+import javafx.geometry.Pos;
 import pl.edu.agh.cs.lab.tgargula.basics.Position;
 import pl.edu.agh.cs.lab.tgargula.elements.Fire;
 import pl.edu.agh.cs.lab.tgargula.elements.Obstacle;
 import pl.edu.agh.cs.lab.tgargula.elements.interfaces.*;
+import pl.edu.agh.cs.lab.tgargula.elements.powerups.*;
 import pl.edu.agh.cs.lab.tgargula.elements.tanks.EnemyTank;
 import pl.edu.agh.cs.lab.tgargula.elements.tanks.PlayerTank;
+import pl.edu.agh.cs.lab.tgargula.engine.Engine;
 import pl.edu.agh.cs.lab.tgargula.worldmap.interfaces.IWorldMap;
 
 import java.util.*;
@@ -58,8 +61,10 @@ public class WorldMap implements IWorldMap {
         return freePositions;
     }
 
-    private Position getRandomFreePosition() {
+    private Position getRandomFreePosition(boolean withSafeZone) {
         Set<Position> freePositions = getFreePositions();
+        if (withSafeZone)
+            freePositions.removeAll(getPlayerTank().safeZone());
         return freePositions.stream()
                 .skip(new Random().nextInt(freePositions.size()))
                 .findFirst()
@@ -80,7 +85,6 @@ public class WorldMap implements IWorldMap {
     }
 
     public void updateBullets(Map<Position, IBullet> newBullets) {
-        getBulletsAsStream().forEach(this::stopObserving);
         newBullets.forEach((position, bullet) -> {
             bullet.setPosition(position);
             this.observe(bullet);
@@ -91,6 +95,10 @@ public class WorldMap implements IWorldMap {
         elements.values().stream()
                 .filter(element -> element instanceof Fire)
                 .forEach(IObservable::destroy);
+    }
+
+    public void removeBullets() {
+        getBulletsAsStream().forEach(this::stopObserving);
     }
 
     public int removeDestroyedElementsAndGetPoints() {
@@ -109,12 +117,28 @@ public class WorldMap implements IWorldMap {
 
     public void createNewEnemyTank() {
         if (getFreePositions().size() > 0)
-            observe(new EnemyTank(getRandomFreePosition(), 1));
+            observe(new EnemyTank(getRandomFreePosition(true), 1));
     }
 
     public void createNewObstacle() {
         if (getFreePositions().size() > 0)
-            observe(new Obstacle(getRandomFreePosition()));
+            observe(new Obstacle(getRandomFreePosition(false)));
+    }
+
+    public void createNewPowerUp(Engine engine) {
+        if (getFreePositions().size() > 0) {
+            IPowerUp powerUp;
+            Position position = getRandomFreePosition(false);
+            switch (new Random().nextInt(7)) {
+                case 1 -> powerUp = new BouncyBulletPowerUp(engine, position);
+                case 2 -> powerUp = new ExtraLifePowerUp(engine, position);
+                case 3 -> powerUp = new FastBulletPowerUp(engine, position);
+                case 4 -> powerUp = new ImmortalityPowerUp(engine, position);
+                case 5 -> powerUp = new StrongBulletPowerUp(engine, position);
+                default -> powerUp = new TwoMovesPowerUp(engine, position);
+            }
+            engine.add(powerUp);
+        }
     }
 
     @Override

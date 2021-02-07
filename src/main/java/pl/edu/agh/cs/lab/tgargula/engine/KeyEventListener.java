@@ -27,7 +27,8 @@ public class KeyEventListener {
             case "A", "LEFT" -> playerTank.setDirection(Direction.WEST);
             case "C" -> playerTank.rotateRight();
             case "Z" -> playerTank.rotateLeft();
-            case "E", "Q", "1", "2", "3", "4" -> engine.changeBullet(event);
+            case "E", "Q", "DIGIT1", "DIGIT2", "DIGIT3", "DIGIT4" -> engine.changeBullet(event);
         }
+        System.out.println(event.getCode());
     }
 }

@@ -3,7 +3,7 @@ package pl.edu.agh.cs.lab.tgargula.elements.tanks;
 import javafx.scene.image.ImageView;
 import pl.edu.agh.cs.lab.tgargula.basics.Direction;
 import pl.edu.agh.cs.lab.tgargula.basics.Position;
-import pl.edu.agh.cs.lab.tgargula.elements.bullets.CommonBullet;
+import pl.edu.agh.cs.lab.tgargula.elements.bullets.*;
 import pl.edu.agh.cs.lab.tgargula.elements.interfaces.AbstractMovable;
 import pl.edu.agh.cs.lab.tgargula.elements.interfaces.IBullet;
 import pl.edu.agh.cs.lab.tgargula.elements.interfaces.IDamageable;
@@ -33,8 +33,13 @@ public abstract class AbstractTank extends AbstractMovable implements ITank {
     }
 
     @Override
-    public IBullet shoot() {
-        return new CommonBullet(nextPosition(), direction);
+    public IBullet shoot(Bullets bulletType) {
+        return switch (bulletType) {
+            case COMMON -> new CommonBullet(nextPosition(), direction);
+            case BOUNCY -> new BouncyBullet(nextPosition(), direction);
+            case FAST -> new FastBullet(nextPosition(), direction);
+            case STRONG -> new StrongBullet(nextPosition(), direction);
+        };
     }
 
     @Override

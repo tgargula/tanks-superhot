@@ -24,6 +24,20 @@
 }
 
 .bullets-pane {
+    -fx-spacing: 20px;
+    -fx-alignment: center;
+}
+
+.bullet-pane {
+    -fx-background-color: rgb(153, 153, 153);
+    -fx-background-radius: 5px;
+    -fx-alignment: center;
+    -fx-max-height: 15px;
+    -fx-padding: 10px;
+}
+
+.selected-pane {
+    -fx-background-color: red;
 }
 
 .life-pane {
@@ -35,6 +49,7 @@
 
 .upper-pane {
     -fx-alignment: center;
+    -fx-spacing: 100px;
 }
 
 .lower-pane {
