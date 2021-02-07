@@ -1,5 +1,6 @@
 .scene {
     -fx-background-color: rgb(43, 43, 43);
+    -fx-spacing: 10px;
 }
 
 .center {
@@ -16,7 +17,7 @@
 }
 
 .field {
-    -fx-background-color: rgb(153, 153, 153);
+    -fx-background-color: rgb(48, 106, 48);
     -fx-pref-width: 30px;
     -fx-pref-height: 30px;
     -fx-background-radius: 2px;
@@ -28,6 +29,8 @@
 .life-pane {
     -fx-background-color: rgb(153, 153, 153);
     -fx-background-radius: 5px;
+    -fx-alignment: center;
+    -fx-spacing: 5px;
 }
 
 .upper-pane {
@@ -36,4 +39,9 @@
 
 .lower-pane {
     -fx-alignment: center;
+}
+
+.score {
+    -fx-font-size: 20px;
+    -fx-font-family: Monospaced;
 }

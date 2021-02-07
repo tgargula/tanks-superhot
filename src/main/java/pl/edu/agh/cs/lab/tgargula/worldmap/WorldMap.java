@@ -2,6 +2,7 @@ package pl.edu.agh.cs.lab.tgargula.worldmap;
 
 import pl.edu.agh.cs.lab.tgargula.basics.Position;
 import pl.edu.agh.cs.lab.tgargula.elements.Fire;
+import pl.edu.agh.cs.lab.tgargula.elements.Obstacle;
 import pl.edu.agh.cs.lab.tgargula.elements.interfaces.*;
 import pl.edu.agh.cs.lab.tgargula.elements.tanks.EnemyTank;
 import pl.edu.agh.cs.lab.tgargula.elements.tanks.PlayerTank;
@@ -9,7 +10,7 @@ import pl.edu.agh.cs.lab.tgargula.worldmap.interfaces.IWorldMap;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -18,7 +19,7 @@ public class WorldMap implements IWorldMap {
     private final List<PlayerTank> players = new LinkedList<>();
     private final Map<Position, IElement> elements = new ConcurrentHashMap<>();
     private final Map<IElement, Position> takenPositions = new ConcurrentHashMap<>();
-    private final Set<Position> availablePositions;
+    private final Set<Position> allPositions;
     private final int size;
 
     public WorldMap(int size) {
@@ -28,7 +29,7 @@ public class WorldMap implements IWorldMap {
         for (int i = 1; i < size - 1; i++)
             for (int j = 1; j < size - 1; j++)
                 positionSet.add(Position.of(i, j));
-        availablePositions = Set.copyOf(positionSet);
+        allPositions = Set.copyOf(positionSet);
     }
 
     @Override
@@ -49,6 +50,20 @@ public class WorldMap implements IWorldMap {
     @Override
     public PlayerTank getPlayerTank() {
         return players.get(0);
+    }
+
+    private Set<Position> getFreePositions() {
+        Set<Position> freePositions = new HashSet<>(allPositions);
+        freePositions.removeAll(takenPositions.values());
+        return freePositions;
+    }
+
+    private Position getRandomFreePosition() {
+        Set<Position> freePositions = getFreePositions();
+        return freePositions.stream()
+                .skip(new Random().nextInt(freePositions.size()))
+                .findFirst()
+                .orElse(null);
     }
 
     public List<ITank> getEnemyTanks() {
@@ -78,25 +93,28 @@ public class WorldMap implements IWorldMap {
                 .forEach(IObservable::destroy);
     }
 
-    public void removeDestroyedElements() {
+    public int removeDestroyedElementsAndGetPoints() {
+        AtomicInteger points = new AtomicInteger();
         elements.values().stream()
                 .filter(element -> element instanceof IDamageable)
                 .map(element -> (IDamageable) element)
                 .filter(IDamageable::isDestroyed)
                 .forEach(damageable -> {
                     damageable.destroy();
+                    points.addAndGet(100);
                     observe(new Fire(damageable.getPosition()));
                 });
+        return points.get();
     }
 
     public void createNewEnemyTank() {
-        Set<Position> positions = new HashSet<>(availablePositions);
-        positions.removeAll(takenPositions.values());
-        System.out.println(positions.size());
-        if (positions.size() > 0) {
-            Position position = positions.stream().skip(new Random().nextInt(positions.size())).findFirst().orElse(null);
-            observe(new EnemyTank(position, 1));
-        }
+        if (getFreePositions().size() > 0)
+            observe(new EnemyTank(getRandomFreePosition(), 1));
+    }
+
+    public void createNewObstacle() {
+        if (getFreePositions().size() > 0)
+            observe(new Obstacle(getRandomFreePosition()));
     }
 
     @Override

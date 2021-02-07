@@ -16,4 +16,8 @@ public class PlayerTank extends AbstractTank {
     public IBullet shoot() {
         return new CommonBullet(nextPosition(), direction);
     }
+
+    public int getDurability() {
+        return currentDurability;
+    }
 }

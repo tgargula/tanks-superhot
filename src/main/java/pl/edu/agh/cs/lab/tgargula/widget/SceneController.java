@@ -4,6 +4,8 @@ import javafx.fxml.FXML;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import pl.edu.agh.cs.lab.tgargula.basics.Direction;
 import pl.edu.agh.cs.lab.tgargula.basics.Position;
 import pl.edu.agh.cs.lab.tgargula.elements.Heart;
@@ -12,20 +14,20 @@ import pl.edu.agh.cs.lab.tgargula.elements.bullets.CommonBullet;
 import pl.edu.agh.cs.lab.tgargula.elements.tanks.EnemyTank;
 import pl.edu.agh.cs.lab.tgargula.elements.tanks.PlayerTank;
 import pl.edu.agh.cs.lab.tgargula.engine.Engine;
-import pl.edu.agh.cs.lab.tgargula.engine.IEngine;
+import pl.edu.agh.cs.lab.tgargula.engine.StatisticsEngine;
 import pl.edu.agh.cs.lab.tgargula.worldmap.WorldMap;
-import pl.edu.agh.cs.lab.tgargula.worldmap.interfaces.IWorldMap;
 
 public class SceneController {
 
     private final WorldMap worldMap = new WorldMap(25);
 
     private final IDrawer worldMapDrawer = new WorldMapDrawer(worldMap);
-    
-    private final IEngine engine = new Engine(worldMap);
-    
+
     @FXML
     private HBox lifePane;
+
+    @FXML
+    private Text score;
 
     @FXML
     private HBox bulletsPane;
@@ -33,8 +35,14 @@ public class SceneController {
     @FXML
     private Pane worldMapPane;
 
+    private StatisticsEngine statisticsEngine;
+
+    private Engine engine;
+
     @FXML
     private void initialize() {
+        statisticsEngine = new StatisticsEngine(lifePane, score);
+        engine = new Engine(worldMap, statisticsEngine);
         System.out.println("Initialized");
 
         // Tests
@@ -50,7 +58,7 @@ public class SceneController {
         engine.add(new EnemyTank(Position.of(13, 13), 1));
 
         for (int i = 1; i < 10; i++) {
-            engine.add(new Obstacle(Position.of(i,10)));
+            engine.add(new Obstacle(Position.of(i, 10)));
             engine.add(new Obstacle(Position.of(10, i)));
         }
         engine.add(new Obstacle(Position.of(10, 10)));
@@ -59,9 +67,7 @@ public class SceneController {
 //        engine.add(new Obstacle(Position.of(0,0)));
 
         // lifePane
-        lifePane.getChildren().add(new Heart().getImageView());
-        lifePane.getChildren().add(new Heart().getImageView());
-        lifePane.getChildren().add(new Heart().getImageView());
+        statisticsEngine.initialize(engine.getPlayerTank().getDurability());
 
     }
 

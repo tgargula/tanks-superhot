@@ -18,10 +18,13 @@ import java.util.Set;
 public class Engine implements IEngine {
 
     private final WorldMap worldMap;
+    private final StatisticsEngine statisticsEngine;
+
     private IBullet selectedBullet;
 
-    public Engine(WorldMap worldMap) {
+    public Engine(WorldMap worldMap, StatisticsEngine statisticsEngine) {
         this.worldMap = worldMap;
+        this.statisticsEngine = statisticsEngine;
         this.addObstacles();
     }
 
@@ -61,8 +64,10 @@ public class Engine implements IEngine {
             if (events.containsKey(Event.SHOOT))
                 takeShots(events.get(Event.SHOOT));
 
-            worldMap.removeDestroyedElements();
+            int points = worldMap.removeDestroyedElementsAndGetPoints();
             createNewObjects();
+
+            this.statisticsEngine.updateScore(10 + points);
         }
     }
 
@@ -73,7 +78,7 @@ public class Engine implements IEngine {
         tanks.stream()
                 .filter(tank -> tank instanceof EnemyTank)
                 .map(tank -> (EnemyTank) tank)
-                .forEach(tank -> tank.changeDirection(playerTank));
+                .forEach(tank -> tank.changeDirection(playerTank, Event.MOVE));
 
         // Move tanks if the space is not occupied
         tanks.stream()
@@ -88,7 +93,9 @@ public class Engine implements IEngine {
         Map<Position, IBullet> bullets = setMap.flatten();
         Set<Position> positionsWithFire = setMap.keySet();
         positionsWithFire.removeAll(bullets.keySet());
-        positionsWithFire.forEach(position -> add(new Fire(position)));
+        positionsWithFire.stream()
+                .filter(position -> !worldMap.isOccupied(position))
+                .forEach(position -> add(new Fire(position)));
 
         Map<Position, IBullet> notDestructedBullets = new HashMap<>();
 
@@ -98,6 +105,8 @@ public class Engine implements IEngine {
                 IElement element = worldMap.getElementAt(position);
                 if (element instanceof IDamageable)
                     bullet.takeDamage((IDamageable) worldMap.getElementAt(position));
+                if (element instanceof PlayerTank)
+                    statisticsEngine.removeHeart();
             } else notDestructedBullets.put(position, bullet);
         });
 
@@ -110,7 +119,7 @@ public class Engine implements IEngine {
         // Rotate enemy tanks towards player
         tanks.stream()
                 .filter(tank -> tank instanceof EnemyTank)
-                .forEach(tank -> ((EnemyTank) tank).changeDirection(getPlayerTank()));
+                .forEach(tank -> ((EnemyTank) tank).changeDirection(getPlayerTank(), Event.SHOOT));
 
         // Add bullets to the map if the field is not occupied
         tanks.stream()
@@ -128,11 +137,11 @@ public class Engine implements IEngine {
                     if (((IDamageable) worldMap.getElementAt(bullet.getPosition())).isDestroyed())
                         System.out.println();
                 });
-
     }
 
     private void createNewObjects() {
         worldMap.createNewEnemyTank();
+        worldMap.createNewObstacle();
     }
 
     @Override
