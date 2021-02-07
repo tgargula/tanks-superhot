@@ -72,11 +72,21 @@ public class WorldMap implements IWorldMap {
         });
     }
 
+    public void removeFire() {
+        elements.values().stream()
+                .filter(element -> element instanceof Fire)
+                .forEach(IObservable::destroy);
+    }
+
     public void removeDestroyedElements() {
-        elements.values().forEach(element -> {
-            if (element instanceof Fire || (element instanceof IDamageable && ((IDamageable) element).isDestroyed())) 
-                element.destroy();
-        });
+        elements.values().stream()
+                .filter(element -> element instanceof IDamageable)
+                .map(element -> (IDamageable) element)
+                .filter(IDamageable::isDestroyed)
+                .forEach(damageable -> {
+                    damageable.destroy();
+                    observe(new Fire(damageable.getPosition()));
+                });
     }
 
     public void createNewEnemyTank() {

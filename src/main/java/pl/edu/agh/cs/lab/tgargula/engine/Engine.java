@@ -12,10 +12,8 @@ import pl.edu.agh.cs.lab.tgargula.elements.tanks.PlayerTank;
 import pl.edu.agh.cs.lab.tgargula.worldmap.WorldMap;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class Engine implements IEngine {
 
@@ -47,7 +45,7 @@ public class Engine implements IEngine {
         KeyEventListener.update(this, event);
 
         if (KeyEventListener.isCrucial(event)) {
-            worldMap.removeDestroyedElements();
+            worldMap.removeFire();
 
             SetMap<Event, ITank> events = Event.assignEvents(
                     worldMap.getEnemyTanks(),
@@ -63,7 +61,8 @@ public class Engine implements IEngine {
             if (events.containsKey(Event.SHOOT))
                 takeShots(events.get(Event.SHOOT));
 
-//            createNewObjects();
+            worldMap.removeDestroyedElements();
+            createNewObjects();
         }
     }
 
@@ -124,7 +123,11 @@ public class Engine implements IEngine {
                 .filter(tank -> worldMap.isOccupied(tank.nextPosition()))
                 .filter(tank -> worldMap.getElementAt(tank.nextPosition()) instanceof IDamageable)
                 .map(ITank::shoot)
-                .forEach(bullet -> bullet.takeDamage((IDamageable) worldMap.getElementAt(bullet.getPosition())));
+                .forEach(bullet -> {
+                    bullet.takeDamage((IDamageable) worldMap.getElementAt(bullet.getPosition()));
+                    if (((IDamageable) worldMap.getElementAt(bullet.getPosition())).isDestroyed())
+                        System.out.println();
+                });
 
     }
 

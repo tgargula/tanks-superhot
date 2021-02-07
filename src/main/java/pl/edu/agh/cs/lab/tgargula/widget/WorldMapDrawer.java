@@ -16,7 +16,7 @@ public class WorldMapDrawer implements IDrawer {
 
     @Override
     public Pane draw() {
-        Pane pane = new VBox();
+        VBox pane = new VBox();
         pane.getStyleClass().add("world-map");
         int size = map.getSize();
         for (int i = 0; i < size; i++) {
