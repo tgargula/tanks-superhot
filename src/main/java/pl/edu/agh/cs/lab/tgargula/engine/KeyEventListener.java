@@ -7,7 +7,7 @@ import pl.edu.agh.cs.lab.tgargula.elements.interfaces.ITank;
 public class KeyEventListener {
 
     public static Event getEvent(KeyEvent keyEvent) {
-        return switch(keyEvent.getCode().toString()) {
+        return switch (keyEvent.getCode().toString()) {
             case "W", "A", "S", "D", "LEFT", "RIGHT", "UP", "DOWN" -> Event.MOVE;
             case "SPACE" -> Event.SHOOT;
             default -> Event.NULL;

@@ -1,6 +1,5 @@
 package pl.edu.agh.cs.lab.tgargula.worldmap;
 
-import javafx.geometry.Pos;
 import pl.edu.agh.cs.lab.tgargula.basics.Position;
 import pl.edu.agh.cs.lab.tgargula.elements.Fire;
 import pl.edu.agh.cs.lab.tgargula.elements.Obstacle;
@@ -109,7 +108,7 @@ public class WorldMap implements IWorldMap {
                 .filter(IDamageable::isDestroyed)
                 .forEach(damageable -> {
                     damageable.destroy();
-                    points.addAndGet(100);
+                    points.addAndGet(1);
                     observe(new Fire(damageable.getPosition()));
                 });
         return points.get();

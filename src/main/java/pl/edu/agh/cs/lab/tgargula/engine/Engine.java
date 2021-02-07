@@ -13,7 +13,6 @@ import pl.edu.agh.cs.lab.tgargula.elements.tanks.PlayerTank;
 import pl.edu.agh.cs.lab.tgargula.worldmap.WorldMap;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -78,7 +77,7 @@ public class Engine implements IEngine {
             int points = worldMap.removeDestroyedElementsAndGetPoints();
             createNewObjects();
 
-            this.statisticsEngine.updateScore(10 + points);
+            this.statisticsEngine.updateScore(points);
         }
     }
 
@@ -124,8 +123,10 @@ public class Engine implements IEngine {
                 IElement element = worldMap.getElementAt(position);
                 if (element instanceof IDamageable)
                     bullet.takeDamage((IDamageable) element);
-                if (element instanceof PlayerTank)
+                if (element instanceof PlayerTank) {
                     statisticsEngine.removeHeart();
+
+                }
             } else notDestructedBullets.put(position, bullet);
         });
 
@@ -148,34 +149,11 @@ public class Engine implements IEngine {
                 if (element instanceof IDamageable) {
                     IDamageable damageable = (IDamageable) element;
                     bullet.takeDamage(damageable);
-                    if (damageable.isDestroyed()) {
-                        damageable.destroy();
-                        add(new Fire(position));
-                    }
-                }
+                    if (damageable.isDestroyed())
+                        destroy(damageable);
+                } else if (element instanceof IBullet) destroy(element);
             } else add(bullet);
-
         });
-
-        // Add bullets to the map if the field is not occupied
-//        tanks.stream()
-//                .filter(tank -> !worldMap.isOccupied(tank.nextPosition()))
-//                .map(tank -> tank.shoot(Bullets.get(bulletEngine, tank))
-//                .forEach(this::add);
-//
-//        // Otherwise take instant damage
-//        tanks.stream()
-//                .filter(tank -> worldMap.isOccupied(tank.nextPosition()))
-//                .filter(tank -> worldMap.getElementAt(tank.nextPosition()) instanceof IDamageable)
-//                .map(tank -> tank.shoot(tank instanceof PlayerTank ? bulletEngine.getChosenBullet() : Bullets.getRandom()))
-//                .forEach(bullet -> {
-//                    IDamageable element = (IDamageable) worldMap.getElementAt(bullet.getPosition());
-//                    bullet.takeDamage(element);
-//                    if (element.isDestroyed()) {
-//                        element.destroy();
-//                        add(new Fire(element.getPosition()));
-//                    }
-//                });
     }
 
     private void createNewObjects() {
@@ -215,5 +193,10 @@ public class Engine implements IEngine {
     public void addHeart() {
         getPlayerTank().addHeart();
         statisticsEngine.addHeart();
+    }
+
+    public void destroy(IElement element) {
+        element.destroy();
+        add(new Fire(element.getPosition()));
     }
 }

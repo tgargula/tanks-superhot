@@ -2,14 +2,13 @@ package pl.edu.agh.cs.lab.tgargula.basics;
 
 import java.util.*;
 import java.util.function.BiConsumer;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 public class HashSetHashMap<K, V> implements SetMap<K, V> {
 
     private final Map<K, Set<V>> structure = new HashMap<>();
 
-    public HashSetHashMap() { }
+    public HashSetHashMap() {
+    }
 
     public HashSetHashMap(SetMap<? extends K, ? extends V> setMap) {
         putAll(setMap);

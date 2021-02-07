@@ -6,6 +6,46 @@ import static java.lang.Math.abs;
 public enum Direction {
     EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST, NORTH, NORTHEAST;
 
+    private static Direction draw(Direction first, Direction second) {
+        return Math.random() < 0.5 ? first : second;
+    }
+
+    public static Direction getMoveDirection(Position relativePosition) {
+        int x = relativePosition.x;
+        int y = relativePosition.y;
+
+        if (x > abs(y)) return EAST;
+        if (y > abs(x)) return SOUTH;
+        if (-x > abs(y)) return WEST;
+        if (-y > abs(x)) return NORTH;
+        if (x == y)
+            if (x > 0) return draw(SOUTH, EAST);
+            else return draw(NORTH, WEST);
+        else if (x > 0) return draw(NORTH, EAST);
+        else return draw(SOUTH, WEST);
+    }
+
+    public static Direction getShootDirection(double angle) {
+        if (7 * PI / 8 < angle || angle <= -7 * PI / 8)
+            return WEST;
+        if (angle <= -5 * PI / 8)
+            return NORTHWEST;
+        if (angle <= -3 * PI / 8)
+            return NORTH;
+        if (angle <= -PI / 8)
+            return NORTHEAST;
+        if (angle <= PI / 8)
+            return EAST;
+        if (angle <= 3 * PI / 8)
+            return SOUTHEAST;
+        if (angle <= 5 * PI / 8)
+            return SOUTH;
+        if (angle <= 7 * PI / 8)
+            return SOUTHWEST;
+
+        throw new IllegalArgumentException();
+    }
+
     public Position toUnitVector() {
         return switch (this) {
             case EAST -> Position.of(1, 0);
@@ -30,47 +70,6 @@ public enum Direction {
             case NORTH -> 270;
             case NORTHEAST -> 315;
         };
-    }
-
-    private static Direction draw(Direction first, Direction second) {
-        return Math.random() < 0.5 ? first : second;
-    }
-
-    public static Direction getMoveDirection(Position relativePosition) {
-        int x = relativePosition.x;
-        int y = relativePosition.y;
-
-        if (x > abs(y)) return EAST;
-        if (y > abs(x)) return SOUTH;
-        if (-x > abs(y)) return WEST;
-        if (-y > abs(x)) return NORTH;
-        if (x == y)
-            if (x > 0) return draw(SOUTH, EAST);
-            else return draw(NORTH, WEST);
-        else
-            if (x > 0) return draw(NORTH, EAST);
-            else return draw(SOUTH, WEST);
-    }
-
-    public static Direction getShootDirection(double angle) {
-        if (7 * PI / 8 < angle || angle <= -7 * PI / 8)
-            return WEST;
-        if (angle <= -5 * PI / 8)
-            return NORTHWEST;
-        if (angle <= -3 * PI / 8)
-            return NORTH;
-        if (angle <= -PI / 8)
-            return NORTHEAST;
-        if (angle <= PI / 8)
-            return EAST;
-        if (angle <= 3 * PI / 8)
-            return SOUTHEAST;
-        if (angle <= 5 * PI / 8)
-            return SOUTH;
-        if (angle <= 7 * PI / 8)
-            return SOUTHWEST;
-
-        throw new IllegalArgumentException();
     }
 
     public Direction rotateLeft() {
