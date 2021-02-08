@@ -8,6 +8,7 @@ import pl.edu.agh.cs.lab.tgargula.elements.bullets.Bullets;
 import pl.edu.agh.cs.lab.tgargula.elements.interfaces.IElement;
 import pl.edu.agh.cs.lab.tgargula.elements.powerups.PowerUps;
 import pl.edu.agh.cs.lab.tgargula.elements.tanks.PlayerTank;
+import pl.edu.agh.cs.lab.tgargula.settings.Levels;
 import pl.edu.agh.cs.lab.tgargula.worldmap.WorldMap;
 
 import java.util.function.Consumer;
@@ -20,12 +21,13 @@ public class Engine implements IEngine {
     private final StepEngine stepEngine;
     private final Consumer<Integer> onEndGame;
 
-    public Engine(WorldMap worldMap, StatisticsEngine statisticsEngine, BulletEngine bulletEngine, Consumer<Integer> onEndGame) {
+    public Engine(WorldMap worldMap, StatisticsEngine statisticsEngine, BulletEngine bulletEngine,
+                  Consumer<Integer> onEndGame, Levels level) {
         this.worldMap = worldMap;
         this.statisticsEngine = statisticsEngine;
         this.bulletEngine = bulletEngine;
         this.stepEngine = new StepEngine(this, statisticsEngine, bulletEngine, worldMap,
-                new Parameters(10, 10, 10));
+                new Parameters(10, 10, 10), level);
         this.addObstacles();
         this.onEndGame = onEndGame;
     }

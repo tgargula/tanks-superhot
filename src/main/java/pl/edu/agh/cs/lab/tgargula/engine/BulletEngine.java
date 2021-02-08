@@ -15,7 +15,7 @@ public class BulletEngine {
     private final Pane twoStepsPowerUpPane;
     private final Pane immortalityPane;
 
-    private final Text bouncyBullets = new Text("0");
+    private final Text bouncyBullets = new Text("10");
     private final Text fastBullets = new Text("0");
     private final Text strongBullets = new Text("0");
     private final Text twoSteps = new Text("0");

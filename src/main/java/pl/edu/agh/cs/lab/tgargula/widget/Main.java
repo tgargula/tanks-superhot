@@ -1,8 +1,10 @@
 package pl.edu.agh.cs.lab.tgargula.widget;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -13,16 +15,17 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/Root.fxml"));
+        SceneSwitchers.setStage(stage);
 
+        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/Settings.fxml"));
         Scene scene = new Scene(loader.load());
-        scene.getStylesheets().add(this.getClass().getResource("/style/style.css").toExternalForm());
+        scene.getStylesheets().add(this.getClass().getResource("/style/settings.css").toExternalForm());
         scene.getRoot().getStyleClass().add("scene");
-        scene.getRoot().requestFocus();
-
-        stage.setFullScreen(true);
-        stage.setTitle("Tanks superhot");
         stage.setScene(scene);
+        stage.setFullScreen(true);
+
+        stage.setTitle("Tanks superhot");
+
         stage.show();
     }
 

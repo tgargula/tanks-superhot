@@ -26,25 +26,28 @@ public class StepEngine {
     private final Engine engine;
     private final StatisticsEngine statisticsEngine;
     private final BulletEngine bulletEngine;
-    private final Levels level = Levels.MEDIUM;
+    private final Levels level;
     private final Parameters params;
 
     private boolean usingTwoMovesPowerUp = false;
     private int usingImmortalityPowerUp = 0;
 
     public StepEngine(Engine engine, StatisticsEngine statisticsEngine, BulletEngine bulletEngine,
-                      WorldMap worldMap, Parameters params) {
+                      WorldMap worldMap, Parameters params, Levels level) {
         this.worldMap = worldMap;
         this.engine = engine;
         this.statisticsEngine = statisticsEngine;
         this.bulletEngine = bulletEngine;
         this.params = params;
+        this.level = level;
     }
 
     public void run(SetMap<Event, ITank> events) {
 
         if (usingTwoMovesPowerUp) {
-            engine.getPlayerTank().move();
+            PlayerTank playerTank = engine.getPlayerTank();
+            if (events.get(Event.MOVE).contains(playerTank))
+                engine.getPlayerTank().move();
             usingTwoMovesPowerUp = false;
             bulletEngine.resetTwoMovesPowerUp();
             return;

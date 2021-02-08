@@ -2,6 +2,8 @@
 
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="pl.edu.agh.cs.lab.tgargula.widget.GameOverController"
@@ -9,5 +11,10 @@
       styleClass="scene">
     <Text styleClass="text">Game Over</Text>
     <Text id="score" fx:id="score" styleClass="text" />
+    <HBox styleClass="box">
+        <Button text="Ustawienia" onAction="#switchToSettings" />
+        <Button text="Nowa gra" onAction="#switchToNewGame" />
+        <Button text="Wyjdź" onAction="#exit" />
+    </HBox>
 
 </VBox>

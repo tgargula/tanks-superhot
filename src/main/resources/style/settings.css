@@ -1,0 +1,30 @@
+.scene {
+    -fx-background-color: rgb(43, 43, 44);
+    -fx-alignment: center;
+}
+
+.title {
+    -fx-fill: rgb(200, 200, 200);
+    -fx-font-size: 30px;
+    -fx-font-family: Monospaced;
+}
+
+.text-text {
+    -fx-fill: rgb(200, 200, 200);
+    -fx-font-size: 20px;
+}
+
+.box {
+    -fx-spacing: 50px;
+}
+
+.spacing-100 {
+    -fx-spacing: 100px;
+}
+
+.button {
+    -fx-alignment: center;
+    -fx-font-size: 20px;
+    -fx-padding: 20px;
+    -fx-text-fill: rgb(43, 43, 44);
+}
