@@ -8,7 +8,6 @@ import pl.edu.agh.cs.lab.tgargula.elements.powerups.*;
 import pl.edu.agh.cs.lab.tgargula.elements.tanks.EnemyTank;
 import pl.edu.agh.cs.lab.tgargula.elements.tanks.PlayerTank;
 import pl.edu.agh.cs.lab.tgargula.engine.Engine;
-import pl.edu.agh.cs.lab.tgargula.worldmap.interfaces.IWorldMap;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,7 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class WorldMap implements IWorldMap {
+public class WorldMap implements IObserver {
 
     private final List<PlayerTank> players = new LinkedList<>();
     private final Map<Position, IElement> elements = new ConcurrentHashMap<>();
@@ -34,22 +33,18 @@ public class WorldMap implements IWorldMap {
         allPositions = Set.copyOf(positionSet);
     }
 
-    @Override
     public boolean isOccupied(Position position) {
         return elements.containsKey(position);
     }
 
-    @Override
     public IElement getElementAt(Position position) {
         return elements.get(position);
     }
 
-    @Override
     public int getSize() {
         return size;
     }
 
-    @Override
     public PlayerTank getPlayerTank() {
         return players.get(0);
     }

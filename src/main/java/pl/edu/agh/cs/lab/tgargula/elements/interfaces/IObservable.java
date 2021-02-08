@@ -1,6 +1,6 @@
 package pl.edu.agh.cs.lab.tgargula.elements.interfaces;
 
-import pl.edu.agh.cs.lab.tgargula.worldmap.interfaces.IObserver;
+import pl.edu.agh.cs.lab.tgargula.worldmap.IObserver;
 
 public interface IObservable {
 

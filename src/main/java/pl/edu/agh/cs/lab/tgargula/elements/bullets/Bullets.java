@@ -36,13 +36,4 @@ public enum Bullets {
             default -> throw new UnsupportedOperationException("Unable to parse " + powerUp + " to Bullets!");
         };
     }
-
-    public IBullet createBullet(Position position, Direction direction) {
-        return switch (this) {
-            case COMMON -> new CommonBullet(position, direction);
-            case BOUNCY -> new BouncyBullet(position, direction);
-            case FAST -> new FastBullet(position, direction);
-            case STRONG -> new StrongBullet(position, direction);
-        };
-    }
 }

@@ -1,4 +1,4 @@
-package pl.edu.agh.cs.lab.tgargula.worldmap.interfaces;
+package pl.edu.agh.cs.lab.tgargula.worldmap;
 
 import pl.edu.agh.cs.lab.tgargula.elements.interfaces.IElement;
 

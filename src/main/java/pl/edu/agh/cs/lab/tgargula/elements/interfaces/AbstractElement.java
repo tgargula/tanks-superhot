@@ -2,7 +2,7 @@ package pl.edu.agh.cs.lab.tgargula.elements.interfaces;
 
 import javafx.scene.image.ImageView;
 import pl.edu.agh.cs.lab.tgargula.basics.Position;
-import pl.edu.agh.cs.lab.tgargula.worldmap.interfaces.IObserver;
+import pl.edu.agh.cs.lab.tgargula.worldmap.IObserver;
 
 import java.util.LinkedList;
 import java.util.List;

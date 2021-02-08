@@ -10,10 +10,6 @@ public class HashSetHashMap<K, V> implements SetMap<K, V> {
     public HashSetHashMap() {
     }
 
-    public HashSetHashMap(SetMap<? extends K, ? extends V> setMap) {
-        putAll(setMap);
-    }
-
     @Override
     public int size() {
         return values().size();

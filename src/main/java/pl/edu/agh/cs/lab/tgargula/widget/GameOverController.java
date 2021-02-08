@@ -23,7 +23,7 @@ public class GameOverController {
         new SceneSwitchers().newGameSwitcher.accept(e);
     }
 
-    public void exit(ActionEvent e) {
+    public void exit() {
         ((Stage) score.getScene().getWindow()).close();
     }
 }

@@ -3,7 +3,7 @@ package pl.edu.agh.cs.lab.tgargula.widget;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import pl.edu.agh.cs.lab.tgargula.basics.Position;
-import pl.edu.agh.cs.lab.tgargula.worldmap.interfaces.IWorldMap;
+import pl.edu.agh.cs.lab.tgargula.worldmap.WorldMap;
 
 public class Field extends Pane {
 
@@ -16,7 +16,7 @@ public class Field extends Pane {
         this(new ImageView());
     }
 
-    public static Field of(IWorldMap worldMap, Position position) {
+    public static Field of(WorldMap worldMap, Position position) {
         return worldMap.isOccupied(position) ?
                 new Field(worldMap.getElementAt(position).getImageView()) : new Field();
     }

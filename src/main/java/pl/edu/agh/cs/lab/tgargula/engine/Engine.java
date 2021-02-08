@@ -13,7 +13,7 @@ import pl.edu.agh.cs.lab.tgargula.worldmap.WorldMap;
 
 import java.util.function.Consumer;
 
-public class Engine implements IEngine {
+public class Engine {
 
     private final WorldMap worldMap;
     private final BulletEngine bulletEngine;
@@ -37,22 +37,14 @@ public class Engine implements IEngine {
         bulletEngine.choose(Bullets.COMMON);
     }
 
-    @Override
     public void add(IElement element) {
         worldMap.observe(element);
     }
 
-    @Override
-    public void remove(IElement element) {
-        worldMap.stopObserving(element);
-    }
-
-    @Override
     public PlayerTank getPlayerTank() {
         return worldMap.getPlayerTank();
     }
 
-    @Override
     public void update(KeyEvent event) {
         KeyEventListener.update(this, event);
 
@@ -69,7 +61,6 @@ public class Engine implements IEngine {
         bulletEngine.addPowerUp(powerUp);
     }
 
-    @Override
     public void changeBullet(KeyEvent event) {
         switch (event.getCode().toString()) {
             case "Q" -> bulletEngine.previousBullet();

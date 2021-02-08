@@ -18,24 +18,34 @@ public class SceneController {
     private static Levels level;
     private static int mapSize;
     private final SceneSwitchers sceneSwitchers = new SceneSwitchers();
+
     @FXML
     private HBox lifePane;
+
     @FXML
     private Text score;
+
     @FXML
     private Pane commonBulletPane;
+
     @FXML
     private Pane bouncyBulletPane;
+
     @FXML
     private Pane fastBulletPane;
+
     @FXML
     private Pane strongBulletPane;
+
     @FXML
     private Pane twoStepsPowerUpPane;
+
     @FXML
     private Pane immortalityPane;
+
     @FXML
     private Pane worldMapPane;
+
     private Engine engine;
     private WorldMapDrawer worldMapDrawer;
 
