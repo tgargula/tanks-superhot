@@ -8,7 +8,7 @@ import pl.edu.agh.cs.lab.tgargula.elements.bullets.Bullets;
 import pl.edu.agh.cs.lab.tgargula.elements.interfaces.IElement;
 import pl.edu.agh.cs.lab.tgargula.elements.powerups.PowerUps;
 import pl.edu.agh.cs.lab.tgargula.elements.tanks.PlayerTank;
-import pl.edu.agh.cs.lab.tgargula.settings.Levels;
+import pl.edu.agh.cs.lab.tgargula.basics.Levels;
 import pl.edu.agh.cs.lab.tgargula.worldmap.WorldMap;
 
 import java.util.function.Consumer;

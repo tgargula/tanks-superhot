@@ -1,4 +1,4 @@
-package pl.edu.agh.cs.lab.tgargula.settings;
+package pl.edu.agh.cs.lab.tgargula.basics;
 
 public enum Levels {
 

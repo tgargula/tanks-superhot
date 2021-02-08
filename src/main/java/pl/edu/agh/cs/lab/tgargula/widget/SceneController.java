@@ -10,7 +10,7 @@ import pl.edu.agh.cs.lab.tgargula.elements.tanks.PlayerTank;
 import pl.edu.agh.cs.lab.tgargula.engine.BulletEngine;
 import pl.edu.agh.cs.lab.tgargula.engine.Engine;
 import pl.edu.agh.cs.lab.tgargula.engine.StatisticsEngine;
-import pl.edu.agh.cs.lab.tgargula.settings.Levels;
+import pl.edu.agh.cs.lab.tgargula.basics.Levels;
 import pl.edu.agh.cs.lab.tgargula.worldmap.WorldMap;
 
 public class SceneController {

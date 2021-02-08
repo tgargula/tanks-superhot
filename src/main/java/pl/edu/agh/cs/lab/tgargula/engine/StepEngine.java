@@ -13,7 +13,7 @@ import pl.edu.agh.cs.lab.tgargula.elements.interfaces.*;
 import pl.edu.agh.cs.lab.tgargula.elements.powerups.PowerUps;
 import pl.edu.agh.cs.lab.tgargula.elements.tanks.EnemyTank;
 import pl.edu.agh.cs.lab.tgargula.elements.tanks.PlayerTank;
-import pl.edu.agh.cs.lab.tgargula.settings.Levels;
+import pl.edu.agh.cs.lab.tgargula.basics.Levels;
 import pl.edu.agh.cs.lab.tgargula.worldmap.WorldMap;
 
 import java.util.HashMap;
@@ -125,16 +125,17 @@ public class StepEngine {
                     ((BouncyBullet) bullet).bounce(isVerticalFree(bullet), isHorizontalFree(bullet));
                     notDestructedBullets.put(bullet.nextPosition(), bullet);
                 } else if (element instanceof IDamageable) {
-                    if (!(element instanceof PlayerTank) || usingImmortalityPowerUp <= 0)
+                    if (!(element instanceof PlayerTank) || usingImmortalityPowerUp <= 0) {
                         bullet.takeDamage((IDamageable) element);
+                        if (element instanceof PlayerTank)
+                            statisticsEngine.removeHeart(bullet.getStrength());
+                    }
                     if (element instanceof Obstacle && bullet instanceof StrongBullet && ((Obstacle) element).isDestroyed())
                         notDestructedBullets.put(position, bullet);
                 } else if (element instanceof IPowerUp) {
                     element.destroy();
                     notDestructedBullets.put(position, bullet);
                 }
-                if (element instanceof PlayerTank && usingImmortalityPowerUp <= 0)
-                    statisticsEngine.removeHeart(bullet.getStrength());
             } else
                 notDestructedBullets.put(position, bullet);
         });
@@ -159,8 +160,11 @@ public class StepEngine {
                 IElement element = worldMap.getElementAt(position);
                 if (element instanceof IDamageable) {
                     IDamageable damageable = (IDamageable) element;
-                    if (!(damageable instanceof PlayerTank) || usingImmortalityPowerUp <= 0)
+                    if (!(damageable instanceof PlayerTank) || usingImmortalityPowerUp <= 0) {
                         bullet.takeDamage(damageable);
+                        if (element instanceof PlayerTank)
+                            statisticsEngine.removeHeart(bullet.getStrength());
+                    }
                     if (damageable.isDestroyed() && !(damageable instanceof PlayerTank)) {
                         if (damageable instanceof EnemyTank)
                             statisticsEngine.updateScore(1);

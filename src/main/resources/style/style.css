@@ -1,6 +1,6 @@
 .scene {
     -fx-background-color: rgb(43, 43, 43);
-    -fx-spacing: 10px;
+    -fx-spacing: 50px;
 }
 
 .center {
@@ -37,7 +37,7 @@
 }
 
 .selected-pane {
-    -fx-background-color: red;
+    -fx-background-color: rgb(200, 64, 64);
 }
 
 .life-pane {
@@ -58,5 +58,5 @@
 }
 
 .using {
-    -fx-background-color: green;
+    -fx-background-color: rgb(64, 200, 64);
 }
