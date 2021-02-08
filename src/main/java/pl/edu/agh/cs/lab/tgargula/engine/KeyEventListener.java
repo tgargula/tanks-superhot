@@ -29,6 +29,5 @@ public class KeyEventListener {
             case "Z" -> playerTank.rotateLeft();
             case "E", "Q", "DIGIT1", "DIGIT2", "DIGIT3", "DIGIT4" -> engine.changeBullet(event);
         }
-        System.out.println(event.getCode());
     }
 }

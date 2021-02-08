@@ -32,4 +32,8 @@ public class StatisticsEngine {
         this.score.setText(String.valueOf(Integer.parseInt(this.score.getText()) + points));
     }
 
+    public int getScore() {
+        return Integer.parseInt(score.getText());
+    }
+
 }

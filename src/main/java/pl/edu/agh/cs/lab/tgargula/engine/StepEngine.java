@@ -1,7 +1,5 @@
 package pl.edu.agh.cs.lab.tgargula.engine;
 
-import javafx.geometry.Pos;
-import javafx.stage.PopupWindow;
 import pl.edu.agh.cs.lab.tgargula.basics.Direction;
 import pl.edu.agh.cs.lab.tgargula.basics.HashSetHashMap;
 import pl.edu.agh.cs.lab.tgargula.basics.Position;
@@ -28,12 +26,15 @@ public class StepEngine {
     private final StatisticsEngine statisticsEngine;
     private final BulletEngine bulletEngine;
     private final Levels level = Levels.MEDIUM;
+    private final Parameters params;
 
-    public StepEngine(Engine engine, StatisticsEngine statisticsEngine, BulletEngine bulletEngine, WorldMap worldMap) {
+    public StepEngine(Engine engine, StatisticsEngine statisticsEngine, BulletEngine bulletEngine,
+                      WorldMap worldMap, Parameters params) {
         this.worldMap = worldMap;
         this.engine  = engine;
         this.statisticsEngine = statisticsEngine;
         this.bulletEngine = bulletEngine;
+        this.params = params;
     }
 
     public void run(SetMap<Event, ITank> events) {
@@ -152,10 +153,19 @@ public class StepEngine {
     }
 
     private void createNewObjects() {
-        if (Levels.draw(level.getEnemyTankProbability()) || worldMap.getEnemyTanks().isEmpty())
+        params.incrementCounters();
+        if (Levels.draw(level.getEnemyTankProbability()) || worldMap.getEnemyTanks().isEmpty() || params.isEnemyCertain()) {
             worldMap.createNewEnemyTank();
-        if (Levels.draw(level.getObstacleProbability())) worldMap.createNewObstacle();
-        if (Levels.draw(level.getPowerUpProbability())) worldMap.createNewPowerUp(engine);
+            params.resetEnemiesCounter();
+        }
+        if (Levels.draw(level.getObstacleProbability()) || params.isObstacleCertain()) {
+            worldMap.createNewObstacle();
+            params.resetObstacleCounter();
+        }
+        if (Levels.draw(level.getPowerUpProbability()) || params.isPowerUpCertain()) {
+            worldMap.createNewPowerUp(engine);
+            params.resetPowerUpCounter();
+        }
     }
 
     private boolean isVerticalFree(IMovable movable) {

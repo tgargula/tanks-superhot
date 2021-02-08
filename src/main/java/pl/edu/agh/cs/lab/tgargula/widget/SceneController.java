@@ -20,6 +20,7 @@ import pl.edu.agh.cs.lab.tgargula.engine.StatisticsEngine;
 import pl.edu.agh.cs.lab.tgargula.worldmap.WorldMap;
 
 import java.io.IOException;
+import java.util.function.Consumer;
 
 public class SceneController {
 
@@ -58,19 +59,26 @@ public class SceneController {
 
     @FXML
     private void initialize() {
+
+        Consumer<Integer> gameOver = points -> {
+            Stage stage = (Stage) worldMapPane.getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/GameOver.fxml"));
+            try {
+                Scene scene = new Scene(loader.load());
+                scene.getStylesheets().add(this.getClass().getResource("/style/game_over.css").toExternalForm());
+                ((GameOverController) loader.getController()).getScoreText().setText("Score: " + points);
+                stage.setScene(scene);
+            } catch (IOException | NullPointerException e) {
+                stage.close();
+            }
+        };
+
         engine = new Engine(
                 worldMap,
                 new StatisticsEngine(lifePane, score),
                 new BulletEngine(commonBulletPane, bouncyBulletPane, fastBulletPane, strongBulletPane,
                         twoStepsPowerUpPane, immortalityPane),
-                () -> {
-                    Stage stage = (Stage) worldMapPane.getScene().getWindow();
-                    try {
-                        stage.setScene(new Scene(new FXMLLoader(this.getClass().getResource("/fxml/GameOver.fxml")).load()));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+                gameOver
         );
         System.out.println("Initialized");
 

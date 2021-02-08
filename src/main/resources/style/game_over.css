@@ -1,0 +1,11 @@
+.scene {
+    -fx-background-color: rgb(43, 43, 44);
+    -fx-spacing: 30px;
+    -fx-alignment: center;
+}
+
+.text {
+    -fx-font-size: 50px;
+    -fx-font-family: Monospaced;
+    -fx-fill: rgb(200, 200, 200);
+}

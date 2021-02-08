@@ -18,13 +18,14 @@ public class Engine implements IEngine {
     private final BulletEngine bulletEngine;
     private final StatisticsEngine statisticsEngine;
     private final StepEngine stepEngine;
-    private final Runnable onEndGame;
+    private final Consumer<Integer> onEndGame;
 
-    public Engine(WorldMap worldMap, StatisticsEngine statisticsEngine, BulletEngine bulletEngine, Runnable onEndGame) {
+    public Engine(WorldMap worldMap, StatisticsEngine statisticsEngine, BulletEngine bulletEngine, Consumer<Integer> onEndGame) {
         this.worldMap = worldMap;
         this.statisticsEngine = statisticsEngine;
         this.bulletEngine = bulletEngine;
-        this.stepEngine = new StepEngine(this, statisticsEngine, bulletEngine, worldMap);
+        this.stepEngine = new StepEngine(this, statisticsEngine, bulletEngine, worldMap,
+                new Parameters(10, 10, 10));
         this.addObstacles();
         this.onEndGame = onEndGame;
     }
@@ -101,6 +102,6 @@ public class Engine implements IEngine {
     }
 
     public void endGame() {
-        onEndGame.run();
+        onEndGame.accept(statisticsEngine.getScore());
     }
 }
