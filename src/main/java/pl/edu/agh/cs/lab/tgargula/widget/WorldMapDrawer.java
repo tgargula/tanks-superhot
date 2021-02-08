@@ -5,7 +5,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import pl.edu.agh.cs.lab.tgargula.basics.Position;
 import pl.edu.agh.cs.lab.tgargula.worldmap.WorldMap;
-import pl.edu.agh.cs.lab.tgargula.worldmap.interfaces.IWorldMap;
 
 public class WorldMapDrawer implements IDrawer {
 

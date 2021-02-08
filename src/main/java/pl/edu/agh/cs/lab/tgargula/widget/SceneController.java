@@ -5,51 +5,53 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import pl.edu.agh.cs.lab.tgargula.basics.Levels;
 import pl.edu.agh.cs.lab.tgargula.basics.Position;
 import pl.edu.agh.cs.lab.tgargula.elements.tanks.PlayerTank;
 import pl.edu.agh.cs.lab.tgargula.engine.BulletEngine;
 import pl.edu.agh.cs.lab.tgargula.engine.Engine;
 import pl.edu.agh.cs.lab.tgargula.engine.StatisticsEngine;
-import pl.edu.agh.cs.lab.tgargula.basics.Levels;
 import pl.edu.agh.cs.lab.tgargula.worldmap.WorldMap;
 
 public class SceneController {
 
     private static Levels level;
     private static int mapSize;
-
+    private final SceneSwitchers sceneSwitchers = new SceneSwitchers();
     @FXML
     private HBox lifePane;
-
     @FXML
     private Text score;
-
     @FXML
     private Pane commonBulletPane;
-
     @FXML
     private Pane bouncyBulletPane;
-
     @FXML
     private Pane fastBulletPane;
-
     @FXML
     private Pane strongBulletPane;
-
     @FXML
     private Pane twoStepsPowerUpPane;
-
     @FXML
     private Pane immortalityPane;
-
     @FXML
     private Pane worldMapPane;
-
     private Engine engine;
     private WorldMapDrawer worldMapDrawer;
 
-    private final SceneSwitchers sceneSwitchers = new SceneSwitchers();
+    public static void setLevel(int levelNo) {
+        level = switch (levelNo) {
+            case 1 -> Levels.EASY;
+            case 2 -> Levels.MEDIUM;
+            case 3 -> Levels.HARD;
+            case 4 -> Levels.INSANE;
+            default -> null;
+        };
+    }
 
+    public static void setMapSize(int size) {
+        mapSize = size;
+    }
 
     @FXML
     private void initialize() {
@@ -78,19 +80,5 @@ public class SceneController {
         engine.update(event);
         worldMapPane.getChildren().clear();
         worldMapPane.getChildren().add(worldMapDrawer.draw());
-    }
-
-    public static void setLevel(int levelNo) {
-        level = switch (levelNo) {
-            case 1 -> Levels.EASY;
-            case 2 -> Levels.MEDIUM;
-            case 3 -> Levels.HARD;
-            case 4 -> Levels.INSANE;
-            default -> null;
-        };
-    }
-
-    public static void setMapSize(int size) {
-        mapSize = size;
     }
 }

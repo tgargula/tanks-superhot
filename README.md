@@ -2,16 +2,16 @@
 
 ## Opis
 
-Jest to drugi projekt na przedmiot Programowanie obiektowe.
-Treść wymagań znajduje się [pod tym linkiem](https://github.com/apohllo/obiektowe-lab/blob/master/proj2/Czolgi_Superhot.md).
-Projekt jest napisany w języku Java w wersji 15.0.2. Korzysta z biblioteki JavaFX. Do zarządzania zależnościami posłużył Maven.
+Jest to drugi projekt na przedmiot Programowanie obiektowe. Treść wymagań znajduje
+się [pod tym linkiem](https://github.com/apohllo/obiektowe-lab/blob/master/proj2/Czolgi_Superhot.md). Projekt jest
+napisany w języku Java w wersji 15.0.2. Korzysta z biblioteki JavaFX. Do zarządzania zależnościami posłużył Maven.
 
 ## Instrukcja
 
 ### Ustawienia
 
-Na pierwszym ekranie można ustawić wielkość mapy (10-30) oraz poziom trudności (EASY, MEDIUM, HARD, INSANE).
-Po kliknięciu przycisku rozpocznie się gra.
+Na pierwszym ekranie można ustawić wielkość mapy (10-30) oraz poziom trudności (EASY, MEDIUM, HARD, INSANE). Po
+kliknięciu przycisku rozpocznie się gra.
 
 ### Klawisze
 
@@ -31,6 +31,7 @@ Po kliknięciu przycisku rozpocznie się gra.
 ### Koniec gry
 
 Gra kończy się z chwilą, gdy gracz traci ostatnie życie. Po zakończeniu gry można:
+
 1. przejść do ustawień i zagrać jeszcze raz
 2. zagrać jeszcze raz z takimi samymi ustawieniami
 3. wyjść z gry

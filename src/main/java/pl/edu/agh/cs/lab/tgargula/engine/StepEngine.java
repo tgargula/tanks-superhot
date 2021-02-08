@@ -1,9 +1,6 @@
 package pl.edu.agh.cs.lab.tgargula.engine;
 
-import pl.edu.agh.cs.lab.tgargula.basics.Direction;
-import pl.edu.agh.cs.lab.tgargula.basics.HashSetHashMap;
-import pl.edu.agh.cs.lab.tgargula.basics.Position;
-import pl.edu.agh.cs.lab.tgargula.basics.SetMap;
+import pl.edu.agh.cs.lab.tgargula.basics.*;
 import pl.edu.agh.cs.lab.tgargula.elements.Fire;
 import pl.edu.agh.cs.lab.tgargula.elements.Obstacle;
 import pl.edu.agh.cs.lab.tgargula.elements.bullets.BouncyBullet;
@@ -13,7 +10,6 @@ import pl.edu.agh.cs.lab.tgargula.elements.interfaces.*;
 import pl.edu.agh.cs.lab.tgargula.elements.powerups.PowerUps;
 import pl.edu.agh.cs.lab.tgargula.elements.tanks.EnemyTank;
 import pl.edu.agh.cs.lab.tgargula.elements.tanks.PlayerTank;
-import pl.edu.agh.cs.lab.tgargula.basics.Levels;
 import pl.edu.agh.cs.lab.tgargula.worldmap.WorldMap;
 
 import java.util.HashMap;

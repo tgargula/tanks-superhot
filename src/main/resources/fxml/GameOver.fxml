@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.control.Button?>
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
+<VBox xmlns:fx="http://javafx.com/fxml"
+      xmlns="http://javafx.com/javafx"
       fx:controller="pl.edu.agh.cs.lab.tgargula.widget.GameOverController"
       prefHeight="400.0" prefWidth="600.0"
       styleClass="scene">
     <Text styleClass="text">Game Over</Text>
-    <Text id="score" fx:id="score" styleClass="text" />
+    <Text id="score" fx:id="score" styleClass="text"/>
     <HBox styleClass="box">
-        <Button text="Ustawienia" onAction="#switchToSettings" />
-        <Button text="Nowa gra" onAction="#switchToNewGame" />
-        <Button text="Wyjdź" onAction="#exit" />
+        <Button text="Ustawienia" onAction="#switchToSettings"/>
+        <Button text="Nowa gra" onAction="#switchToNewGame"/>
+        <Button text="Wyjdź" onAction="#exit"/>
     </HBox>
 
 </VBox>

@@ -4,6 +4,10 @@ public enum Levels {
 
     EASY, MEDIUM, HARD, INSANE;
 
+    public static boolean draw(double probability) {
+        return Math.random() <= probability;
+    }
+
     public double getEnemyTankProbability() {
         return switch (this) {
             case EASY -> 0.1;
@@ -27,10 +31,6 @@ public enum Levels {
             case EASY, MEDIUM, HARD -> 0.2;
             case INSANE -> 0.5;
         };
-    }
-
-    public static boolean draw(double probability) {
-        return Math.random() <= probability;
     }
 
 }
