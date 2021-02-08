@@ -1,12 +1,12 @@
 package pl.edu.agh.cs.lab.tgargula.engine;
 
-import javafx.event.ActionEvent;
 import javafx.scene.input.KeyEvent;
 import pl.edu.agh.cs.lab.tgargula.basics.Position;
 import pl.edu.agh.cs.lab.tgargula.elements.Fire;
 import pl.edu.agh.cs.lab.tgargula.elements.Obstacle;
 import pl.edu.agh.cs.lab.tgargula.elements.bullets.Bullets;
 import pl.edu.agh.cs.lab.tgargula.elements.interfaces.IElement;
+import pl.edu.agh.cs.lab.tgargula.elements.powerups.PowerUps;
 import pl.edu.agh.cs.lab.tgargula.elements.tanks.PlayerTank;
 import pl.edu.agh.cs.lab.tgargula.worldmap.WorldMap;
 
@@ -63,8 +63,8 @@ public class Engine implements IEngine {
         }
     }
 
-    public void addBullet(Bullets bullet) {
-        bulletEngine.addBullet(bullet);
+    public void addPowerUp(PowerUps powerUp) {
+        bulletEngine.addPowerUp(powerUp);
     }
 
     @Override
@@ -103,5 +103,10 @@ public class Engine implements IEngine {
 
     public void endGame() {
         onEndGame.accept(statisticsEngine.getScore());
+    }
+
+    public void usePowerUp(PowerUps powerUp) {
+        if (bulletEngine.isAvailable(powerUp))
+            stepEngine.usePowerUp(powerUp);
     }
 }

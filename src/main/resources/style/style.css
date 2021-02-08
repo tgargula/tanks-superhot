@@ -52,10 +52,11 @@
     -fx-spacing: 100px;
 }
 
-.lower-pane {
-}
-
 .score {
     -fx-font-size: 20px;
     -fx-font-family: Monospaced;
+}
+
+.using {
+    -fx-background-color: green;
 }

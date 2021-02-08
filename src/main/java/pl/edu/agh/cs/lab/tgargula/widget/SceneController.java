@@ -24,7 +24,7 @@ import java.util.function.Consumer;
 
 public class SceneController {
 
-    private final WorldMap worldMap = new WorldMap(25);
+    private final WorldMap worldMap = new WorldMap(35);
 
     private final IDrawer worldMapDrawer = new WorldMapDrawer(worldMap);
 

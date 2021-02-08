@@ -11,6 +11,6 @@ public class ImmortalityPowerUp extends AbstractPowerUp {
 
     @Override
     public void use() {
-
+        engine.addPowerUp(PowerUps.IMMORTALITY);
     }
 }

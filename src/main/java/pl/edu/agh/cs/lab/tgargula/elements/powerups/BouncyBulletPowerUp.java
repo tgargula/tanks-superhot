@@ -1,7 +1,6 @@
 package pl.edu.agh.cs.lab.tgargula.elements.powerups;
 
 import pl.edu.agh.cs.lab.tgargula.basics.Position;
-import pl.edu.agh.cs.lab.tgargula.elements.bullets.Bullets;
 import pl.edu.agh.cs.lab.tgargula.engine.Engine;
 
 public class BouncyBulletPowerUp extends AbstractPowerUp {
@@ -12,7 +11,7 @@ public class BouncyBulletPowerUp extends AbstractPowerUp {
 
     @Override
     public void use() {
-        engine.addBullet(Bullets.BOUNCY);
+        engine.addPowerUp(PowerUps.BOUNCY_BULLET);
     }
 
 }

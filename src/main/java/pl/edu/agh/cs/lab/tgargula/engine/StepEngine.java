@@ -10,6 +10,7 @@ import pl.edu.agh.cs.lab.tgargula.elements.bullets.BouncyBullet;
 import pl.edu.agh.cs.lab.tgargula.elements.bullets.Bullets;
 import pl.edu.agh.cs.lab.tgargula.elements.bullets.StrongBullet;
 import pl.edu.agh.cs.lab.tgargula.elements.interfaces.*;
+import pl.edu.agh.cs.lab.tgargula.elements.powerups.PowerUps;
 import pl.edu.agh.cs.lab.tgargula.elements.tanks.EnemyTank;
 import pl.edu.agh.cs.lab.tgargula.elements.tanks.PlayerTank;
 import pl.edu.agh.cs.lab.tgargula.settings.Levels;
@@ -28,22 +29,36 @@ public class StepEngine {
     private final Levels level = Levels.MEDIUM;
     private final Parameters params;
 
+    private boolean usingTwoMovesPowerUp = false;
+    private int usingImmortalityPowerUp = 0;
+
     public StepEngine(Engine engine, StatisticsEngine statisticsEngine, BulletEngine bulletEngine,
                       WorldMap worldMap, Parameters params) {
         this.worldMap = worldMap;
-        this.engine  = engine;
+        this.engine = engine;
         this.statisticsEngine = statisticsEngine;
         this.bulletEngine = bulletEngine;
         this.params = params;
     }
 
     public void run(SetMap<Event, ITank> events) {
+
+        if (usingTwoMovesPowerUp) {
+            engine.getPlayerTank().move();
+            usingTwoMovesPowerUp = false;
+            bulletEngine.resetTwoMovesPowerUp();
+            return;
+        }
+        if (usingImmortalityPowerUp > 0) {
+            usingImmortalityPowerUp--;
+            if (usingImmortalityPowerUp <= 0) bulletEngine.resetImmortalityPowerUp();
+        }
+
         worldMap.removeFire();
 
         SetMap<Position, IBullet> setMap = new HashSetHashMap<>();
         worldMap.getBulletsAsStream().forEach(bullet -> setMap.put(bullet.nextPosition(), bullet));
         worldMap.removeBullets();
-
 
         moveTanks(events.get(Event.MOVE));
 
@@ -107,14 +122,15 @@ public class StepEngine {
                     ((BouncyBullet) bullet).bounce(isVerticalFree(bullet), isHorizontalFree(bullet));
                     notDestructedBullets.put(bullet.nextPosition(), bullet);
                 } else if (element instanceof IDamageable) {
-                    bullet.takeDamage((IDamageable) element);
+                    if (!(element instanceof PlayerTank) || usingImmortalityPowerUp <= 0)
+                        bullet.takeDamage((IDamageable) element);
                     if (element instanceof Obstacle && bullet instanceof StrongBullet && ((Obstacle) element).isDestroyed())
                         notDestructedBullets.put(position, bullet);
                 } else if (element instanceof IPowerUp) {
                     element.destroy();
                     notDestructedBullets.put(position, bullet);
                 }
-                if (element instanceof PlayerTank)
+                if (element instanceof PlayerTank && usingImmortalityPowerUp <= 0)
                     statisticsEngine.removeHeart(bullet.getStrength());
             } else
                 notDestructedBullets.put(position, bullet);
@@ -140,9 +156,11 @@ public class StepEngine {
                 IElement element = worldMap.getElementAt(position);
                 if (element instanceof IDamageable) {
                     IDamageable damageable = (IDamageable) element;
-                    bullet.takeDamage(damageable);
+                    if (!(damageable instanceof PlayerTank) || usingImmortalityPowerUp <= 0)
+                        bullet.takeDamage(damageable);
                     if (damageable.isDestroyed() && !(damageable instanceof PlayerTank)) {
-                        statisticsEngine.updateScore(1);
+                        if (damageable instanceof EnemyTank)
+                            statisticsEngine.updateScore(1);
                         engine.destroy(damageable);
                         if (damageable instanceof Obstacle && bullet instanceof StrongBullet)
                             engine.add(bullet);
@@ -184,6 +202,14 @@ public class StepEngine {
             case NORTHWEST, SOUTHWEST -> !worldMap.isOccupied(position.add(Direction.WEST.toUnitVector()));
             case NORTHEAST, SOUTHEAST -> !worldMap.isOccupied(position.add(Direction.EAST.toUnitVector()));
         };
+    }
+
+    public void usePowerUp(PowerUps powerUp) {
+        bulletEngine.usePowerUp(powerUp);
+        switch (powerUp) {
+            case TWO_MOVES -> usingTwoMovesPowerUp = true;
+            case IMMORTALITY -> usingImmortalityPowerUp = 10;
+        }
     }
 
 }

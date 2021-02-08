@@ -4,6 +4,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import pl.edu.agh.cs.lab.tgargula.elements.bullets.Bullets;
+import pl.edu.agh.cs.lab.tgargula.elements.powerups.PowerUps;
 
 public class BulletEngine {
 
@@ -67,13 +68,23 @@ public class BulletEngine {
         );
     }
 
-    public void addBullet(Bullets bulletType) {
+    public void resetImmortalityPowerUp() {
+        immortalityPane.getStyleClass().remove("using");
+    }
+
+    public void resetTwoMovesPowerUp() {
+        twoStepsPowerUpPane.getStyleClass().remove("using");
+    }
+
+    public void addPowerUp(PowerUps powerUp) {
         Text text;
-        switch (bulletType) {
-            case BOUNCY -> text = bouncyBullets;
-            case FAST -> text = fastBullets;
-            case STRONG -> text = strongBullets;
-            default -> throw new IllegalStateException("Unexpected value: " + bulletType);
+        switch (powerUp) {
+            case BOUNCY_BULLET -> text = bouncyBullets;
+            case FAST_BULLET -> text = fastBullets;
+            case STRONG_BULLET -> text = strongBullets;
+            case IMMORTALITY -> text = immortality;
+            case TWO_MOVES -> text = twoSteps;
+            default -> throw new IllegalStateException("Unexpected value: " + powerUp);
         }
 
         text.setText(String.valueOf(Integer.parseInt(text.getText()) + 1));
@@ -83,9 +94,15 @@ public class BulletEngine {
         chosenBullet = bulletType;
         switch (bulletType) {
             case COMMON -> select(commonBulletPane);
-            case BOUNCY -> select(bouncyBulletPane);
-            case FAST -> select(fastBulletPane);
-            case STRONG -> select(strongBulletPane);
+            case BOUNCY -> {
+                if (isAvailable(PowerUps.BOUNCY_BULLET)) select(bouncyBulletPane);
+            }
+            case FAST -> {
+                if (isAvailable(PowerUps.FAST_BULLET)) select(fastBulletPane);
+            }
+            case STRONG -> {
+                if (isAvailable(PowerUps.STRONG_BULLET)) select(strongBulletPane);
+            }
         }
     }
 
@@ -99,23 +116,71 @@ public class BulletEngine {
 
     public void nextBullet() {
         switch (chosenBullet) {
-            case COMMON -> choose(Bullets.BOUNCY);
-            case BOUNCY -> choose(Bullets.FAST);
-            case FAST -> choose(Bullets.STRONG);
+            case COMMON -> choose(
+                    isAvailable(PowerUps.BOUNCY_BULLET) ? Bullets.BOUNCY :
+                            isAvailable(PowerUps.FAST_BULLET) ? Bullets.FAST :
+                                    isAvailable(PowerUps.STRONG_BULLET) ? Bullets.STRONG : Bullets.COMMON
+            );
+            case BOUNCY -> choose(
+                    isAvailable(PowerUps.FAST_BULLET) ? Bullets.FAST :
+                            isAvailable(PowerUps.STRONG_BULLET) ? Bullets.STRONG : Bullets.COMMON
+            );
+            case FAST -> choose(
+                    isAvailable(PowerUps.STRONG_BULLET) ? Bullets.STRONG : Bullets.COMMON
+            );
             case STRONG -> choose(Bullets.COMMON);
         }
     }
 
     public void previousBullet() {
         switch (chosenBullet) {
-            case COMMON -> choose(Bullets.STRONG);
+            case COMMON -> choose(
+                    isAvailable(PowerUps.STRONG_BULLET) ? Bullets.STRONG :
+                            isAvailable(PowerUps.FAST_BULLET) ? Bullets.FAST :
+                                    isAvailable(PowerUps.BOUNCY_BULLET) ? Bullets.BOUNCY : Bullets.COMMON
+            );
             case BOUNCY -> choose(Bullets.COMMON);
-            case FAST -> choose(Bullets.BOUNCY);
-            case STRONG -> choose(Bullets.FAST);
+            case FAST -> choose(
+                    isAvailable(PowerUps.BOUNCY_BULLET) ? Bullets.BOUNCY : Bullets.COMMON
+            );
+            case STRONG -> choose(
+                    isAvailable(PowerUps.FAST_BULLET) ? Bullets.FAST :
+                            isAvailable(PowerUps.BOUNCY_BULLET) ? Bullets.BOUNCY : Bullets.COMMON
+            );
         }
     }
 
     public Bullets getChosenBullet() {
         return chosenBullet;
+    }
+
+    public boolean isAvailable(PowerUps powerUp) {
+        return switch (powerUp) {
+            case FAST_BULLET -> Integer.parseInt(fastBullets.getText()) > 0;
+            case BOUNCY_BULLET -> Integer.parseInt(bouncyBullets.getText()) > 0;
+            case STRONG_BULLET -> Integer.parseInt(strongBullets.getText()) > 0;
+            case TWO_MOVES -> Integer.parseInt(twoSteps.getText()) > 0;
+            case IMMORTALITY -> Integer.parseInt(immortality.getText()) > 0;
+        };
+    }
+
+    public void usePowerUp(PowerUps powerUp) {
+
+        switch (powerUp) {
+            case TWO_MOVES -> twoStepsPowerUpPane.getStyleClass().add("using");
+            case IMMORTALITY -> immortalityPane.getStyleClass().add("using");
+        }
+
+        Text text;
+        switch (powerUp) {
+            case FAST_BULLET -> text = fastBullets;
+            case BOUNCY_BULLET -> text = bouncyBullets;
+            case STRONG_BULLET -> text = strongBullets;
+            case TWO_MOVES -> text = twoSteps;
+            case IMMORTALITY -> text = immortality;
+            default -> throw new UnsupportedOperationException();
+        }
+
+        text.setText(String.valueOf(Integer.parseInt(text.getText()) - 1));
     }
 }

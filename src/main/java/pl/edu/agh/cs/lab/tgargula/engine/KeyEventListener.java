@@ -3,6 +3,7 @@ package pl.edu.agh.cs.lab.tgargula.engine;
 import javafx.scene.input.KeyEvent;
 import pl.edu.agh.cs.lab.tgargula.basics.Direction;
 import pl.edu.agh.cs.lab.tgargula.elements.interfaces.ITank;
+import pl.edu.agh.cs.lab.tgargula.elements.powerups.PowerUps;
 
 public class KeyEventListener {
 
@@ -18,7 +19,7 @@ public class KeyEventListener {
         return !getEvent(keyEvent).equals(Event.NULL);
     }
 
-    public static void update(IEngine engine, KeyEvent event) {
+    public static void update(Engine engine, KeyEvent event) {
         ITank playerTank = engine.getPlayerTank();
         switch (event.getCode().toString()) {
             case "W", "UP" -> playerTank.setDirection(Direction.NORTH);
@@ -27,6 +28,8 @@ public class KeyEventListener {
             case "A", "LEFT" -> playerTank.setDirection(Direction.WEST);
             case "C" -> playerTank.rotateRight();
             case "Z" -> playerTank.rotateLeft();
+            case "F" -> engine.usePowerUp(PowerUps.IMMORTALITY);
+            case "R" -> engine.usePowerUp(PowerUps.TWO_MOVES);
             case "E", "Q", "DIGIT1", "DIGIT2", "DIGIT3", "DIGIT4" -> engine.changeBullet(event);
         }
     }

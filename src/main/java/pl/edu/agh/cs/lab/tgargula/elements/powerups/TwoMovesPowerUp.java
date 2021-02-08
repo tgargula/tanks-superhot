@@ -11,6 +11,6 @@ public class TwoMovesPowerUp extends AbstractPowerUp {
 
     @Override
     public void use() {
-
+        engine.addPowerUp(PowerUps.TWO_MOVES);
     }
 }
