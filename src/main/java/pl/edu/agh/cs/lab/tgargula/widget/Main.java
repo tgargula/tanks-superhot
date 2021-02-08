@@ -20,6 +20,8 @@ public class Main extends Application {
         scene.getRoot().getStyleClass().add("scene");
         scene.getRoot().requestFocus();
 
+        stage.setFullScreen(true);
+        stage.setTitle("Tanks superhot");
         stage.setScene(scene);
         stage.show();
     }

@@ -23,8 +23,9 @@ public class StatisticsEngine {
         this.lifePane.getChildren().add(new Heart().getImageView());
     }
 
-    public void removeHeart() {
-        this.lifePane.getChildren().remove(0);
+    public void removeHeart(int bulletStrength) {
+        for (int i = 0; i < bulletStrength && this.lifePane.getChildren().size() > 0; i++)
+            this.lifePane.getChildren().remove(0);
     }
 
     public void updateScore(int points) {

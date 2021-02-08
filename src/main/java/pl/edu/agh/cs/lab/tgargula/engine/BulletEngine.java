@@ -11,18 +11,25 @@ public class BulletEngine {
     private final Pane bouncyBulletPane;
     private final Pane fastBulletPane;
     private final Pane strongBulletPane;
+    private final Pane twoStepsPowerUpPane;
+    private final Pane immortalityPane;
 
     private final Text bouncyBullets = new Text("0");
     private final Text fastBullets = new Text("0");
     private final Text strongBullets = new Text("0");
+    private final Text twoSteps = new Text("0");
+    private final Text immortality = new Text("0");
 
     private Bullets chosenBullet = Bullets.COMMON;
 
-    public BulletEngine(Pane commonBulletPane, Pane bouncyBulletPane, Pane fastBulletPane, Pane strongBulletPane) {
+    public BulletEngine(Pane commonBulletPane, Pane bouncyBulletPane, Pane fastBulletPane, Pane strongBulletPane,
+                        Pane twoStepsPowerUpPane, Pane immortalityPane) {
         this.commonBulletPane = commonBulletPane;
         this.bouncyBulletPane = bouncyBulletPane;
         this.fastBulletPane = fastBulletPane;
         this.strongBulletPane = strongBulletPane;
+        this.twoStepsPowerUpPane = twoStepsPowerUpPane;
+        this.immortalityPane = immortalityPane;
 
         initialize();
     }
@@ -47,6 +54,16 @@ public class BulletEngine {
                 new Text("4"),
                 new ImageView("images/strong_bullet.png"),
                 strongBullets
+        );
+        twoStepsPowerUpPane.getChildren().addAll(
+                new Text("R"),
+                new Text("TWO STEPS"),
+                twoSteps
+        );
+        immortalityPane.getChildren().addAll(
+                new Text("F"),
+                new Text("IMMORTALITY"),
+                immortality
         );
     }
 

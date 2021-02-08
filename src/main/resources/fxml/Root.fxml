@@ -2,24 +2,26 @@
 
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.control.Separator?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      onKeyPressed="#updateMap" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1"
-      fx:controller="pl.edu.agh.cs.lab.tgargula.widget.SceneController">
+      onKeyPressed="#updateMap" xmlns="http://javafx.com/javafx/11.0.1" prefWidth="1000" prefHeight="1000"
+      fx:controller="pl.edu.agh.cs.lab.tgargula.widget.SceneController" >
     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" styleClass="upper-pane">
         <HBox prefHeight="100.0" prefWidth="200.0" styleClass="bullets-pane">
             <VBox fx:id="commonBulletPane" styleClass="bullet-pane"/>
             <VBox fx:id="bouncyBulletPane" styleClass="bullet-pane"/>
             <VBox fx:id="fastBulletPane" styleClass="bullet-pane"/>
             <VBox fx:id="strongBulletPane" styleClass="bullet-pane"/>
+            <Separator orientation="vertical" maxHeight="30" maxWidth="1" />
+            <VBox fx:id="twoStepsPowerUpPane" styleClass="bullet-pane"/>
+            <VBox fx:id="immortalityPane" styleClass="bullet-pane"/>
         </HBox>
         <VBox prefHeight="100.0" prefWidth="400.0" styleClass="life-pane">
             <Text fx:id="score" styleClass="score" text="0"/>
             <HBox fx:id="lifePane" styleClass="life-pane"/>
         </VBox>
     </HBox>
-    <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="lower-pane">
-        <Pane fx:id="worldMapPane" nodeOrientation="LEFT_TO_RIGHT" prefHeight="169.0" prefWidth="600.0"
-              styleClass="world-map-pane" StackPane.alignment="CENTER">
-        </Pane>
-    </StackPane>
+    <HBox alignment="CENTER" prefHeight="150.0" prefWidth="200.0" styleClass="lower-pane">
+        <Pane fx:id="worldMapPane" prefHeight="169.0" prefWidth="600.0"/>
+    </HBox>
 </VBox>

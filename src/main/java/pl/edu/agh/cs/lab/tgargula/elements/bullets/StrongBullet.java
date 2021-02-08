@@ -8,11 +8,7 @@ import pl.edu.agh.cs.lab.tgargula.elements.interfaces.IDamageable;
 public class StrongBullet extends AbstractBullet {
 
     public StrongBullet(Position position, Direction direction) {
-        super(position, direction, new ImageView("/images/strong_bullet.png"));
+        super(position, direction, new ImageView("/images/strong_bullet.png"), 2);
     }
 
-    @Override
-    public void takeDamage(IDamageable damageable) {
-        damageable.beDamaged(2);
-    }
 }

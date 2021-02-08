@@ -1,32 +1,32 @@
 package pl.edu.agh.cs.lab.tgargula.engine;
 
+import javafx.event.ActionEvent;
 import javafx.scene.input.KeyEvent;
-import pl.edu.agh.cs.lab.tgargula.basics.HashSetHashMap;
 import pl.edu.agh.cs.lab.tgargula.basics.Position;
-import pl.edu.agh.cs.lab.tgargula.basics.SetMap;
 import pl.edu.agh.cs.lab.tgargula.elements.Fire;
 import pl.edu.agh.cs.lab.tgargula.elements.Obstacle;
 import pl.edu.agh.cs.lab.tgargula.elements.bullets.Bullets;
-import pl.edu.agh.cs.lab.tgargula.elements.interfaces.*;
-import pl.edu.agh.cs.lab.tgargula.elements.tanks.EnemyTank;
+import pl.edu.agh.cs.lab.tgargula.elements.interfaces.IElement;
 import pl.edu.agh.cs.lab.tgargula.elements.tanks.PlayerTank;
 import pl.edu.agh.cs.lab.tgargula.worldmap.WorldMap;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.function.Consumer;
 
 public class Engine implements IEngine {
 
     private final WorldMap worldMap;
-    private final StatisticsEngine statisticsEngine;
     private final BulletEngine bulletEngine;
+    private final StatisticsEngine statisticsEngine;
+    private final StepEngine stepEngine;
+    private final Runnable onEndGame;
 
-    public Engine(WorldMap worldMap, StatisticsEngine statisticsEngine, BulletEngine bulletEngine) {
+    public Engine(WorldMap worldMap, StatisticsEngine statisticsEngine, BulletEngine bulletEngine, Runnable onEndGame) {
         this.worldMap = worldMap;
         this.statisticsEngine = statisticsEngine;
         this.bulletEngine = bulletEngine;
+        this.stepEngine = new StepEngine(this, statisticsEngine, bulletEngine, worldMap);
         this.addObstacles();
+        this.onEndGame = onEndGame;
     }
 
     public void initialize() {
@@ -54,112 +54,12 @@ public class Engine implements IEngine {
         KeyEventListener.update(this, event);
 
         if (KeyEventListener.isCrucial(event)) {
-            worldMap.removeFire();
-
-            SetMap<Event, ITank> events = Event.assignEvents(
+            stepEngine.run(Event.assignEvents(
                     worldMap.getEnemyTanks(),
-                    getPlayerTank(),
+                    worldMap.getPlayerTank(),
                     KeyEventListener.getEvent(event)
-            );
-
-            SetMap<Position, IBullet> setMap = new HashSetHashMap<>();
-            worldMap.getBulletsAsStream().forEach(bullet -> setMap.put(bullet.nextPosition(), bullet));
-            worldMap.removeBullets();
-
-            if (events.containsKey(Event.MOVE))
-                moveTanks(events.get(Event.MOVE));
-
-            moveBullets(setMap);
-
-            if (events.containsKey(Event.SHOOT))
-                takeShots(events.get(Event.SHOOT));
-
-            int points = worldMap.removeDestroyedElementsAndGetPoints();
-            createNewObjects();
-
-            this.statisticsEngine.updateScore(points);
+            ));
         }
-    }
-
-    private void moveTanks(Set<ITank> tanks) {
-        PlayerTank playerTank = getPlayerTank();
-
-        // Change direction of enemy tanks
-        tanks.stream()
-                .filter(tank -> tank instanceof EnemyTank)
-                .map(tank -> (EnemyTank) tank)
-                .forEach(tank -> tank.changeDirection(playerTank, Event.MOVE));
-
-        // Move tanks if the space is not occupied
-        tanks.forEach(tank -> {
-            IElement element = worldMap.getElementAt(tank.nextPosition());
-            if (element instanceof IPowerUp) {
-                if (tank instanceof PlayerTank)
-                    ((IPowerUp) element).use();
-                element.destroy();
-            }
-            if (element instanceof IBullet) {
-                ((IBullet) element).takeDamage(tank);
-                element.destroy();
-            }
-            if (!(element instanceof Obstacle || element instanceof ITank))
-                tank.move();
-        });
-    }
-
-    private void moveBullets(SetMap<Position, IBullet> setMap) {
-        Map<Position, IBullet> bullets = setMap.flatten();
-        Set<Position> positionsWithFire = setMap.keySet();
-        positionsWithFire.removeAll(bullets.keySet());
-        positionsWithFire.stream()
-                .filter(position -> !worldMap.isOccupied(position))
-                .forEach(position -> add(new Fire(position)));
-
-        Map<Position, IBullet> notDestructedBullets = new HashMap<>();
-
-        // Take damage
-        bullets.forEach((position, bullet) -> {
-            if (worldMap.isOccupied(position)) {
-                IElement element = worldMap.getElementAt(position);
-                if (element instanceof IDamageable)
-                    bullet.takeDamage((IDamageable) element);
-                if (element instanceof PlayerTank) {
-                    statisticsEngine.removeHeart();
-
-                }
-            } else notDestructedBullets.put(position, bullet);
-        });
-
-        // Apply moves
-        worldMap.updateBullets(notDestructedBullets);
-    }
-
-    private void takeShots(Set<ITank> tanks) {
-
-        // Rotate enemy tanks towards player
-        tanks.stream()
-                .filter(tank -> tank instanceof EnemyTank)
-                .forEach(tank -> ((EnemyTank) tank).changeDirection(getPlayerTank(), Event.SHOOT));
-
-        tanks.forEach(tank -> {
-            Position position = tank.nextPosition();
-            IBullet bullet = tank.shoot(Bullets.get(bulletEngine, tank));
-            if (worldMap.isOccupied(position)) {
-                IElement element = worldMap.getElementAt(position);
-                if (element instanceof IDamageable) {
-                    IDamageable damageable = (IDamageable) element;
-                    bullet.takeDamage(damageable);
-                    if (damageable.isDestroyed())
-                        destroy(damageable);
-                } else if (element instanceof IBullet) destroy(element);
-            } else add(bullet);
-        });
-    }
-
-    private void createNewObjects() {
-        worldMap.createNewEnemyTank();
-//        worldMap.createNewObstacle();
-//        worldMap.createNewPowerUp(this);
     }
 
     public void addBullet(Bullets bullet) {
@@ -198,5 +98,9 @@ public class Engine implements IEngine {
     public void destroy(IElement element) {
         element.destroy();
         add(new Fire(element.getPosition()));
+    }
+
+    public void endGame() {
+        onEndGame.run();
     }
 }

@@ -29,6 +29,11 @@ public abstract class AbstractMovable extends AbstractElement implements IMovabl
     }
 
     @Override
+    public Direction getDirection() {
+        return direction;
+    }
+
+    @Override
     public void move() {
         this.position = nextPosition();
         this.update();

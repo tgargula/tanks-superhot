@@ -4,4 +4,6 @@ public interface IBullet extends IMovable {
 
     void takeDamage(IDamageable tank);
 
+    int getStrength();
+
 }

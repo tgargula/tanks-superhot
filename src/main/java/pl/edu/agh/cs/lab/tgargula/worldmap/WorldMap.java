@@ -100,16 +100,20 @@ public class WorldMap implements IWorldMap {
         getBulletsAsStream().forEach(this::stopObserving);
     }
 
-    public int removeDestroyedElementsAndGetPoints() {
+    public int removeDestroyedElementsAndGetPoints(Engine engine) {
         AtomicInteger points = new AtomicInteger();
         elements.values().stream()
                 .filter(element -> element instanceof IDamageable)
                 .map(element -> (IDamageable) element)
                 .filter(IDamageable::isDestroyed)
                 .forEach(damageable -> {
-                    damageable.destroy();
-                    points.addAndGet(1);
-                    observe(new Fire(damageable.getPosition()));
+                    if (damageable instanceof PlayerTank)
+                        engine.endGame();
+                    else {
+                        engine.destroy(damageable);
+                        if (damageable instanceof EnemyTank)
+                            points.addAndGet(1);
+                    }
                 });
         return points.get();
     }

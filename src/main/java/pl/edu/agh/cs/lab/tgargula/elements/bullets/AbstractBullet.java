@@ -9,15 +9,20 @@ import pl.edu.agh.cs.lab.tgargula.elements.interfaces.IDamageable;
 
 public abstract class AbstractBullet extends AbstractMovable implements IBullet {
 
-    protected Direction direction;
+    protected final int strength;
 
-    protected AbstractBullet(Position position, Direction direction, ImageView imageView) {
+    protected AbstractBullet(Position position, Direction direction, ImageView imageView, int strength) {
         super(position, direction, imageView);
-        this.direction = direction;
+        this.strength = strength;
     }
 
     @Override
     public void takeDamage(IDamageable damageable) {
-        damageable.beDamaged(1);
+        damageable.beDamaged(strength);
+    }
+
+    @Override
+    public int getStrength() {
+        return strength;
     }
 }

@@ -11,6 +11,8 @@ public interface IMovable extends IElement {
 
     Position nextPosition();
 
+    Direction getDirection();
+
     void move();
 
 }
