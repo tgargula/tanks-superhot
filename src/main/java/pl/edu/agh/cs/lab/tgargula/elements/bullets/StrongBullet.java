@@ -7,7 +7,7 @@ import pl.edu.agh.cs.lab.tgargula.basics.Position;
 public class StrongBullet extends AbstractBullet {
 
     public StrongBullet(Position position, Direction direction) {
-        super(position, direction, new ImageView("/images/strong_bullet.png"), 2);
+        super(position, direction, new ImageView("/images/bullets/strong_bullet.png"), 2);
     }
 
 }

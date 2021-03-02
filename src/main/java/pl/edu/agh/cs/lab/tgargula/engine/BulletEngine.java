@@ -38,22 +38,22 @@ public class BulletEngine {
     private void initialize() {
         commonBulletPane.getChildren().addAll(
                 new Text("1"),
-                new ImageView("images/common_bullet.png"),
+                new ImageView("images/bullets/common_bullet.png"),
                 new Text(Character.toString('\u221E'))
         );
         bouncyBulletPane.getChildren().addAll(
                 new Text("2"),
-                new ImageView("images/bouncy_bullet.png"),
+                new ImageView("images/bullets/bouncy_bullet.png"),
                 bouncyBullets
         );
         fastBulletPane.getChildren().addAll(
                 new Text("3"),
-                new ImageView("images/fast_bullet.png"),
+                new ImageView("images/bullets/fast_bullet.png"),
                 fastBullets
         );
         strongBulletPane.getChildren().addAll(
                 new Text("4"),
-                new ImageView("images/strong_bullet.png"),
+                new ImageView("images/bullets/strong_bullet.png"),
                 strongBullets
         );
         twoStepsPowerUpPane.getChildren().addAll(

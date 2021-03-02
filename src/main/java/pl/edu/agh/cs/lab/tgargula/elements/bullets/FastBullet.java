@@ -8,7 +8,7 @@ import pl.edu.agh.cs.lab.tgargula.basics.Position;
 public class FastBullet extends AbstractBullet {
 
     public FastBullet(Position position, Direction direction) {
-        super(position, direction, new ImageView(new Image("/images/fast_bullet.png")), 1);
+        super(position, direction, new ImageView(new Image("/images/bullets/fast_bullet.png")), 1);
     }
 
     @Override

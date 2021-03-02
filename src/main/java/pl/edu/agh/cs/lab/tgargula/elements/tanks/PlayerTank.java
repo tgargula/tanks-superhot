@@ -9,7 +9,7 @@ import java.util.Set;
 public class PlayerTank extends AbstractTank {
 
     public PlayerTank(Position position, int durability) {
-        super(position, durability, new ImageView("/images/player_tank3.png"));
+        super(position, durability, new ImageView("/images/tanks/player_tank3.png"));
     }
 
     public int getDurability() {

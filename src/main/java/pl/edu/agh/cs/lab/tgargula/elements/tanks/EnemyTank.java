@@ -9,7 +9,7 @@ public class EnemyTank extends AbstractTank {
     private final EnemyTankAI tankAI = new EnemyTankAI(this);
 
     public EnemyTank(Position position, int durability) {
-        super(position, durability, new ImageView("/images/enemy_tank.png"));
+        super(position, durability, new ImageView("/images/tanks/enemy_tank.png"));
     }
 
     public void changeDirection(PlayerTank player, Event event) {

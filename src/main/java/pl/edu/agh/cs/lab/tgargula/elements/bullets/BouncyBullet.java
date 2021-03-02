@@ -9,7 +9,7 @@ import static pl.edu.agh.cs.lab.tgargula.basics.Direction.*;
 public class BouncyBullet extends AbstractBullet {
 
     public BouncyBullet(Position position, Direction direction) {
-        super(position, direction, new ImageView("/images/bouncy_bullet.png"), 1);
+        super(position, direction, new ImageView("/images/bullets/bouncy_bullet.png"), 1);
     }
 
     public void bounce(boolean isVerticalFree, boolean isHorizontalFree) {

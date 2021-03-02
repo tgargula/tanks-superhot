@@ -16,7 +16,7 @@ public class Obstacle extends AbstractElement implements IDamageable {
     public Obstacle(Position position, boolean destroyable) {
         super(
                 position,
-                destroyable ? new ImageView("/images/obstacle2.png") : new ImageView("/images/obstacle3.png")
+                destroyable ? new ImageView("/images/obstacles/obstacle2.png") : new ImageView("/images/obstacles/obstacle3.png")
         );
         this.durability = destroyable ? 2 : Integer.MAX_VALUE;
     }
@@ -25,9 +25,9 @@ public class Obstacle extends AbstractElement implements IDamageable {
     public void beDamaged(int damage) {
         durability -= damage;
         if (durability == 2)
-            this.imageView = new ImageView("/images/obstacle2.png");
+            this.imageView = new ImageView("/images/obstacles/obstacle2.png");
         if (durability == 1)
-            this.imageView = new ImageView("/images/obstacle1.png");
+            this.imageView = new ImageView("/images/obstacles/obstacle1.png");
     }
 
     @Override
