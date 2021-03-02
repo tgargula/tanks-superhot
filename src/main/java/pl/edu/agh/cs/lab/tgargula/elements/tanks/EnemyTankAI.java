@@ -11,10 +11,10 @@ public class EnemyTankAI {
     }
 
     public Direction bestShootDirection(PlayerTank playerTank) {
-        return tank.getPosition().bestShootDirection(playerTank.getPosition());
+        return tank.getPosition().getBestShootDirection(playerTank.getPosition());
     }
 
     public Direction bestMoveDirection(PlayerTank playerTank) {
-        return tank.getPosition().bestMoveDirection(playerTank.getPosition());
+        return tank.getPosition().getBestMoveDirection(playerTank.getPosition());
     }
 }

@@ -48,9 +48,11 @@ public class StepEngine {
             bulletEngine.resetTwoMovesPowerUp();
             return;
         }
+
         if (usingImmortalityPowerUp > 0) {
             usingImmortalityPowerUp--;
-            if (usingImmortalityPowerUp <= 0) bulletEngine.resetImmortalityPowerUp();
+            if (usingImmortalityPowerUp <= 0)
+                bulletEngine.resetImmortalityPowerUp();
         }
 
         worldMap.removeFire();

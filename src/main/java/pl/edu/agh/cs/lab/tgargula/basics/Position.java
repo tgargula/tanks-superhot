@@ -31,12 +31,12 @@ public final class Position {
         return Position.of(this.x - other.x, this.y - other.y);
     }
 
-    public Direction bestShootDirection(Position playerPosition) {
+    public Direction getBestShootDirection(Position playerPosition) {
         Position relativePosition = playerPosition.subtract(this);
         return Direction.getShootDirection(relativePosition.getAngle());
     }
 
-    public Direction bestMoveDirection(Position playerPosition) {
+    public Direction getBestMoveDirection(Position playerPosition) {
         Position relativePosition = playerPosition.subtract(this);
         return Direction.getMoveDirection(relativePosition);
     }
