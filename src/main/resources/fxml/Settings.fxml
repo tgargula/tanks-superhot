@@ -11,17 +11,17 @@
     <Text styleClass="title" text="TANKS SUPERHOT"/>
     <VBox styleClass="box">
         <HBox alignment="CENTER" styleClass="box">
-            <Text styleClass="text-text" text="Rozmiar mapy:"/>
+            <Text styleClass="text-text" text="size of map:"/>
             <Slider fx:id="mapSizeSlider" min="10" max="30" value="20" showTickLabels="true" showTickMarks="true"
                     majorTickUnit="1" minorTickCount="0" blockIncrement="1" prefWidth="500" snapToTicks="true"/>
         </HBox>
         <HBox alignment="CENTER" styleClass="box">
-            <Text styleClass="text-text" text="Poziom:"/>
+            <Text styleClass="text-text" text="level:"/>
             <Slider fx:id="levelSlider" min="1" max="4" value="2" showTickLabels="true" showTickMarks="true"
                     majorTickUnit="1" minorTickCount="0" blockIncrement="1" prefWidth="300" snapToTicks="true"/>
         </HBox>
         <HBox alignment="CENTER" styleClass="box">
-            <Button text="Rozpocznij grę" onAction="#startGame" styleClass="button"/>
+            <Button text="start game" onAction="#startGame"/>
         </HBox>
     </VBox>
 

@@ -10,6 +10,11 @@
     -fx-fill: rgb(200, 200, 200);
 }
 
+.button {
+    -fx-pref-width: 150px;
+    -fx-pref-height: 40px;
+}
+
 .button .text {
     -fx-font-size: 20px;
     -fx-fill: rgb(43, 43, 44);

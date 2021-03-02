@@ -12,9 +12,9 @@
     <Text styleClass="text">Game Over</Text>
     <Text id="score" fx:id="score" styleClass="text"/>
     <HBox styleClass="box">
-        <Button text="Ustawienia" onAction="#switchToSettings"/>
-        <Button text="Nowa gra" onAction="#switchToNewGame"/>
-        <Button text="Wyjdź" onAction="#exit"/>
+        <Button text="settings" onAction="#switchToSettings"/>
+        <Button text="new game" onAction="#switchToNewGame"/>
+        <Button text="exit" onAction="#exit"/>
     </HBox>
 
 </VBox>
