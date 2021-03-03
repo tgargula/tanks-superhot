@@ -6,6 +6,33 @@ This is the second project for the subject Object oriented programming.
 The requirements are accessible (in Polish) [under this link](https://github.com/apohllo/obiektowe-lab/blob/master/proj2/Czolgi_Superhot.md).
 The project is written in Java v15.0.2. It uses JavaFX library for GUI and Maven for dependencies management.
 
+## How to install?
+
+It is required to have Java in version 15.0.2 installed on your system. The package is available 
+[on this site](https://jdk.java.net/15/). It can be also obtained using command line on Linux 
+operating systems. Use [this link](https://www.linuxuprising.com/2020/09/how-to-install-oracle-java-15-on-ubuntu.html)
+in order to see the instruction.
+
+Then you will have to have Maven installed. There is an instruction [here](https://maven.apache.org/install.html) 
+on how to do this.
+
+In order to check if everything is installed properly, check if:
+```shell
+java -version
+```
+returns v15.0.2 or later and check if:
+```shell
+mvn -version
+```
+shows v3.6.3 or later.
+
+At least use following command to install dependencies and run the game.
+```shell
+mvn dependency:resolve
+mvn javafx:run
+```
+
+
 ## Elements
 
 ### Bullets
@@ -88,3 +115,9 @@ The game ends when we lose our last heart. On the game over screen we can:
 1. go to settings and play once again
 2. play again with the same settings
 3. exit the game
+
+## Screenshots
+
+![settings](./src/main/resources/screenshots/settings.png)
+![game](./src/main/resources/screenshots/game.png)
+![game over](./src/main/resources/screenshots/game_over.png)
