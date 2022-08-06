@@ -121,3 +121,10 @@ The game ends when we lose our last heart. On the game over screen we can:
 ![settings](./src/main/resources/screenshots/settings.png)
 ![game](./src/main/resources/screenshots/game.png)
 ![game over](./src/main/resources/screenshots/game_over.png)
+
+## Demo
+
+
+https://user-images.githubusercontent.com/56299613/183259773-25e0a653-e827-4f22-8f39-26dfc6d5ca8f.mp4
+
+
